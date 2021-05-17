@@ -1,6 +1,6 @@
 Package: SizeExtractR
 Type: Package
-Title: Tools for extracting sizes from scaled images that have been analysed in ImageJ using SizeExtractR protocol
+Title: Extracts object size metrics from scaled images analysed in SizeExtractR ImageJ protocols
 Version: 0.1.0
 Authors@R: person("Liam", "Lachs", email = "liamlachs@gmail.com", role = c("aut", "cre"))
 Description: The ImageJ tools and protocol serve to optimise the slow task of manually outlining objects from sets of images. A scale is required within each image. These tools can save considerable time, and are a great option for image analysis applications that are not suited to machine-learning or other automated outlining classifiers.
