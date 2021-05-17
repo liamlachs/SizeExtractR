@@ -1,11 +1,14 @@
 Package: SizeExtractR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tools for extracting sizes from scaled images that have been analysed in ImageJ using SizeExtractR protocol. 
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: person("Liam", "Lachs", email = "liamlachs@gmail.com", role = c("aut", "cre"))
+Description: The ImageJ tools and protocol serve to optimise the slow task of manually outlining objects from sets of images. A scale is required within each image. These tools can save considerable time, and are a great option for image analysis applications that are not suited to machine-learning or other automated outlining classifiers.
+    Measures of size that are captured using SizeExtractR tools include:
+    - area
+    - minimum and maximum diameter
+    - estimated spherical and elliptical volume
+    - bounding boxes 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
