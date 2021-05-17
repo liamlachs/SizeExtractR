@@ -7,9 +7,9 @@
 Calibrate_Database(datalab, known.length)
 }
 \arguments{
-\item{known.length}{a numerical value of the length of calibration lengths from image analyses (in centimeters).}
+\item{datalab}{An object of class dataframe as output directly from SizeExtractR::Add_ROILabelVars()}
 
-\item{data}{An object of class dataframe as output directly from SizeExtractR::Add_ROILabelVars()}
+\item{known.length}{a numerical value of the length of calibration lengths from image analyses (in centimeters).}
 }
 \value{
 For each image independently, this function returns a calibrated  SizeExtractR database (dataframe object).

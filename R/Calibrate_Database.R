@@ -1,6 +1,6 @@
 #' Calibrate the SizeExtractR database, based on known calibration length (cm)
 #'
-#' @param data An object of class dataframe as output directly from SizeExtractR::Add_ROILabelVars()
+#' @param datalab An object of class dataframe as output directly from SizeExtractR::Add_ROILabelVars()
 #' @param known.length a numerical value of the length of calibration lengths from image analyses (in centimeters).
 #'
 #' @return For each image independently, this function returns a calibrated  SizeExtractR database (dataframe object).
