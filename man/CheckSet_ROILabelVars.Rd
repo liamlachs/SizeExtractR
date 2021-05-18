@@ -4,10 +4,12 @@
 \alias{CheckSet_ROILabelVars}
 \title{Check for mistakes in ROI Labels from the SizeExctractR ImageJ tools and protocol}
 \usage{
-CheckSet_ROILabelVars(data)
+CheckSet_ROILabelVars(data, path)
 }
 \arguments{
 \item{data}{An object of class dataframe as output directly from SizeExtractR::Build_Uncalibrated_Dataset()}
+
+\item{path}{A Directory path within which holds the text files outputted from SizeExtractR imageJ tools and protocol. The directory path should be given in double quotes in the same format as that returned by the function getwd(), and should be the same as that used in SizeExtractR::Build_Uncalibrated_Dataset()}
 }
 \value{
 Runs through interactive checks for the user to determine if the ROI Labels (i.e., additional notes about each ROI of interest) used in their image analysis are correct, and help to identify any images that had mistakes in the labelling process. If mistakes are found support information is given to the user.
@@ -20,6 +22,6 @@ Once the csv file has been created and edited propoerly, this function returns a
 Check for mistakes in ROI Labels from the SizeExctractR ImageJ tools and protocol
 }
 \examples{
-Label.Translator = CheckSet_ROILabelVars(Database)
+Label.Translator = CheckSet_ROILabelVars(Database, mypath)
 
 }

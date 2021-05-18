@@ -34,7 +34,7 @@ Check_ROI_Codes = function(data){
                 "     (see above for details)\n\n",
                 "_____________________________________\n\n"))
 
-  x = menu(c("Yes", "No"))
+  x = utils::menu(c("Yes", "No"))
 
   if(x != 1 && x != 2){
     message("Error: must enter either 1 or 2\n\nTry again")

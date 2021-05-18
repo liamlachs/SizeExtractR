@@ -21,7 +21,7 @@ CheckSet_DirecVars = function(path){
   N.folders <- sapply(DS, length) # number of folders in each directory
   DS <- as.data.frame(t(sapply(DS, "[", i = 1:max(N.folders))))
   colnames(DS) <- paste("Directory","Level",1:ncol(DS))
-  head(DS)
+  utils::head(DS)
 
   message(paste("\n_________________________________________________________________\n\n",
                 "N.B.\n",
@@ -52,7 +52,7 @@ CheckSet_DirecVars = function(path){
                 "     (see above for details)\n",
                 "_____________________________________\n\n"))
 
-  x = menu(c("Yes", "No"))
+  x = utils::menu(c("Yes", "No"))
 
   if(x != 1 && x != 2){
     message("Error: must enter either 1 or 2\n\nTry again")
@@ -77,7 +77,7 @@ CheckSet_DirecVars = function(path){
       levs = levels(as.factor(as.character(DS[,i])))
       levs = data.frame(Folder.Names = levs)
       row.names(levs) = NULL
-      print(head(levs), row.names = FALSE)
+      print(utils::head(levs), row.names = FALSE)
 
       Var.temp <- readline("Answer: ")
       if(i == 1){

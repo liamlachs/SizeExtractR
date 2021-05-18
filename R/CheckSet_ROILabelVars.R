@@ -1,6 +1,7 @@
 #' Check for mistakes in ROI Labels from the SizeExctractR ImageJ tools and protocol
 #'
 #' @param data An object of class dataframe as output directly from SizeExtractR::Build_Uncalibrated_Dataset()
+#' @param path A Directory path within which holds the text files outputted from SizeExtractR imageJ tools and protocol. The directory path should be given in double quotes in the same format as that returned by the function getwd(), and should be the same as that used in SizeExtractR::Build_Uncalibrated_Dataset()
 #'
 #' @return Runs through interactive checks for the user to determine if the ROI Labels (i.e., additional notes about each ROI of interest) used in their image analysis are correct, and help to identify any images that had mistakes in the labelling process. If mistakes are found support information is given to the user.
 #' @return Prompts the user to set up a Label csv file with the required information needed to create the label translator matix
@@ -9,22 +10,22 @@
 #' @export
 #'
 #' @examples
-#' Label.Translator = CheckSet_ROILabelVars(Database)
+#' Label.Translator = CheckSet_ROILabelVars(Database, mypath)
 #'
-CheckSet_ROILabelVars = function(data){
+CheckSet_ROILabelVars = function(data, path){
   Lab.txt.levs = levels(as.factor(data$ROI.Label))
   Lab.txt.chars = unique(strsplit(paste(Lab.txt.levs, collapse=""),"")[[1]])
   N.Lab.txt.chars = length(Lab.txt.chars)
 
-  csvDir = paste(mypath,"/","ROI_Labels.csv",sep="")
+  csvDir = paste(path,"/","ROI_Labels.csv",sep="")
   csvTemplate = data.frame(ROI_Label_code = rep("<fill label text here>",N.Lab.txt.chars),
                            Corresponding_Variable_Name = rep("<fill variable name here>",N.Lab.txt.chars))
 
   if(file.exists(csvDir) == FALSE){
-    write.csv(csvTemplate, csvDir, row.names = FALSE)
+    utils::write.csv(csvTemplate, csvDir, row.names = FALSE)
 
     message(paste("_________________________________________________________________\n\n",
-                  ".csv file 'ROI_Labels.csv' was just created in the mypath directory\n",
+                  ".csv file 'ROI_Labels.csv' was just created in the path directory\n",
                   "Follow the next 3 steps (outside of R):\n\n",
                   "   1) Open the .csv file\n",
                   "   2) Fill in the ROI labels relavent to your image analysis\n",
@@ -38,7 +39,7 @@ CheckSet_ROILabelVars = function(data){
   } else {
 
     # Check the ROI labels are correct
-    Label.csv.data = read.csv(csvDir)
+    Label.csv.data = utils::read.csv(csvDir)
 
     if(any(Label.csv.data$ROI_Label_code              == "<fill variable name here>" |
            Label.csv.data$Corresponding_Variable_Name == "<fill variable name here>")){
@@ -92,7 +93,7 @@ CheckSet_ROILabelVars = function(data){
                       "Is the ROI labeling system correct?\n\n",
                       "_____________________________________\n\n"))
 
-        x = menu(c("Yes", "No"))
+        x = utils::menu(c("Yes", "No"))
 
         if(x != 1 && x != 2){
           message("Error: must enter either 1 or 2\n\nTry again")
@@ -125,7 +126,7 @@ CheckSet_ROILabelVars = function(data){
           # To solve the false positive issue for "bb" as stated above, for example,
           #    when one variable label ("bb") is a repeat of a different variable label ("b")
           for( i in 1:nrow(Label.csv.data)){
-            N.reps = str_count(Label.Translator$ROI.Label, as.character(Label.csv.data$ROI_Label_code)[i])
+            N.reps = stringr::str_count(Label.Translator$ROI.Label, as.character(Label.csv.data$ROI_Label_code)[i])
             Label.Translator[,1+i] = N.reps == 1
           }
 
@@ -142,7 +143,7 @@ CheckSet_ROILabelVars = function(data){
                         "Is the processed ROI labeling system correct?\n\n",
                         "_____________________________________\n\n"))
 
-          x = menu(c("Yes", "No"))
+          x = utils::menu(c("Yes", "No"))
 
           if(x != 1 && x != 2){
             message("Error: must enter either 1 or 2\n\nTry again")

@@ -9,18 +9,21 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>%
+#' @importFrom rlang .data
+#'
 #' @examples
 #' Database.cal = Calibrate_Database(Database.ROILab, known.length = 10)
 #'
 Calibrate_Database = function(datalab, known.length){
-  Cali = datalab %>% subset(ROI.Code=="M") # Choose M because these are the calibration lengths
+  Cali = datalab %>% subset(.data$ROI.Code=="M") # Choose M because these are the calibration lengths
   Cali$ROI.Code = as.character(Cali$ROI.Rep)
   Cali2 <- Cali %>%
-    group_by(Photo.Order) %>%
-    summarise(Cal.nums = max(as.character(ROI.Rep)),
-              Cal.Length.mean = mean(Cal.Length),
-              Cal.Length.sd = sd(Cal.Length))
-  datacal = left_join(datalab, Cali2, by = "Photo.Order")
+    dplyr::group_by(.data$Photo.Order) %>%
+    dplyr::summarise(Cal.nums = max(as.character(.data$ROI.Rep)),
+              Cal.Length.mean = mean(.data$Cal.Length),
+              Cal.Length.sd = stats::sd(.data$Cal.Length))
+  datacal = dplyr::left_join(datalab, Cali2, by = "Photo.Order")
 
   datacal[] <- lapply(datacal, function(x) if(is.factor(x)) factor(x) else x)
   # CALIBRATIONS

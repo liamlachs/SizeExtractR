@@ -7,6 +7,9 @@
 #'
 #' @export
 #'
+#' @importFrom dplyr %>%
+#' @importFrom rlang .data
+#'
 #' @examples
 #' Database = Build_Uncalibrated_Dataset(mypath, varnames)
 #'
@@ -18,7 +21,7 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   # Load in the data
   txt_files_ls = list.files(path=path, pattern="*.txt", recursive = TRUE)
   txt_files_ls = as.vector(txt_files_ls)
-  txt_files_df <- lapply(txt_files_ls, function(x) {read.delim(file = paste(path, "/",x,sep=""))})
+  txt_files_df <- lapply(txt_files_ls, function(x) {utils::read.delim(file = paste(path, "/",x,sep=""))})
   combined_df <- do.call("bind_rows", lapply(txt_files_df, as.data.frame))
   dummy = as.vector(c(1:length(txt_files_ls)))
   for (i in 1:length(txt_files_ls)){
@@ -35,19 +38,20 @@ Build_Uncalibrated_Dataset = function(path, var.names){
 
   #Split columns to make new variables
   # Ignore Warnings in these lines " Expected 2 [or 3] pieces...."
-  DB = separate(DB, Label, c("Photo.Name", "ROI"), ":")
-  DB = suppressWarnings(separate(DB, ROI, into = c("ROI.Code", "ROI.RepLab"), # "?<=" means look behind the split point, for any uppr or lower case letters ("A-Za-z")
+  DB = tidyr::separate(DB, .data$Label, c("Photo.Name", "ROI"), ":")
+  DB = suppressWarnings(tidyr::separate(DB, .data$ROI, into = c("ROI.Code", "ROI.RepLab"), # "?<=" means look behind the split point, for any uppr or lower case letters ("A-Za-z")
                                  sep = "(?<=[A-Za-z])(?=[0-9])"))         # "?=" means look ahead after the cursor
 
-  DB = suppressWarnings(separate(DB, ROI.RepLab, into = c("ROI.Rep", "ROI.Label"),# https://stackoverflow.com/questions/9756360/split-character-data-into-numbers-and-letters
+  DB = suppressWarnings(tidyr::separate(DB, .data$ROI.RepLab, into = c("ROI.Rep", "ROI.Label"),# https://stackoverflow.com/questions/9756360/split-character-data-into-numbers-and-letters
                                  sep = "(?<=[0-9])(?=[A-Za-z])"))
-  DB = suppressWarnings(separate(DB, Directory, var.names, "/"))
+  DB = suppressWarnings(tidyr::separate(DB, .data$Directory, var.names, "/"))
   fact.cols = colnames(DB)[2:(length(var.names)+5)]
   DB[fact.cols] <- lapply(DB[fact.cols],
                           factor)
+
   DB = DB %>%
-    group_by_at(var.names) %>%
-    mutate(Photo.Rep = as.factor(as.numeric(as.character(Photo.Order)) - min(as.numeric(as.character(Photo.Order))) + 1))
+    dplyr::group_by_at(var.names) %>%
+    dplyr::mutate(Photo.Rep = as.factor(as.numeric(as.character(.data$Photo.Order)) - min(as.numeric(as.character(.data$Photo.Order))) + 1))
   colnames(DB)
   insert.ind = which(colnames(DB) == var.names[length(var.names)])
   DB = DB[c(1:insert.ind, ncol(DB), (insert.ind + 1):(ncol(DB)-1))]

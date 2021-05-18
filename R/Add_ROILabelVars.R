@@ -14,11 +14,11 @@
 Add_ROILabelVars = function(data, label.translator){
 
   data$ROI.Label = addNA(data$ROI.Label)
-  datalab = as.data.frame(matrix(NA,nrow = nrow(data), ncol = ncol(Label.Translator)-1))
-  colnames(datalab) = colnames(Label.Translator)[-1]
+  datalab = as.data.frame(matrix(NA,nrow = nrow(data), ncol = ncol(label.translator)-1))
+  colnames(datalab) = colnames(label.translator)[-1]
   for(j in 1:ncol(datalab)){
-    for(i in 1:nrow(Label.Translator)){
-      datalab[data$ROI.Label == Label.Translator$ROI.Label[i],j] = as.character(Label.Translator[i,j+1])
+    for(i in 1:nrow(label.translator)){
+      datalab[data$ROI.Label == label.translator$ROI.Label[i],j] = as.character(label.translator[i,j+1])
     }
   }
   datalab.cols = colnames(datalab)
