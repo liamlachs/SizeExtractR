@@ -10,7 +10,7 @@ CheckSet_DirecVars(path)
 \item{path}{A Directory path within which holds the text files outputted from SizeExtractR imageJ tools and protocol. The directory path should be given in double quotes in the same format as that returned by the function getwd()}
 }
 \value{
-Returns a vector of Variable Names that will be used later in database formation within ExtractR.
+Returns a vector of Variable Names that will be used later in database formation within SizeExtractR.
 
 It also provides a user interface to check the Directory structure is suitable for other SizeExtractR functions. If the Directory structure is incorrect this function prompts the user about how to fix the directory structure.
 }
@@ -18,6 +18,10 @@ It also provides a user interface to check the Directory structure is suitable f
 Check Directory Structure, and Set Directory-derived Variable Names
 }
 \examples{
-varnames = CheckSet_DirecVars("C:/Users/username/Documents/Size Analysis")
+# Run the function
+# mypath = "data/TextFiles"
+mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+varnames = CheckSet_DirecVars(mypath)
+print(varnames)
 
 }

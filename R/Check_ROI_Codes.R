@@ -8,6 +8,10 @@
 #' @export
 #'
 #' @examples
+#' # load in the output of Build_Uncalibrated_Dataset
+#' load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+#'
+#' # Run the function
 #' Check_ROI_Codes(Database)
 #'
 Check_ROI_Codes = function(data){

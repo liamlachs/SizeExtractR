@@ -18,6 +18,12 @@ Returns a dataframe object of all regions of interest (ROIs) from all text files
 Build the Uncalibrated Dataset for further use in SizeExctractR
 }
 \examples{
+# load in the output of CheckSet_DirecVars
+mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+
+# Run the function
 Database = Build_Uncalibrated_Dataset(mypath, varnames)
+head(Database)
 
 }

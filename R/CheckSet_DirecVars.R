@@ -2,13 +2,17 @@
 #'
 #' @param path A Directory path within which holds the text files outputted from SizeExtractR imageJ tools and protocol. The directory path should be given in double quotes in the same format as that returned by the function getwd()
 #'
-#' @return Returns a vector of Variable Names that will be used later in database formation within ExtractR.
+#' @return Returns a vector of Variable Names that will be used later in database formation within SizeExtractR.
 #' @return It also provides a user interface to check the Directory structure is suitable for other SizeExtractR functions. If the Directory structure is incorrect this function prompts the user about how to fix the directory structure.
 #'
 #' @export
 #'
 #' @examples
-#' varnames = CheckSet_DirecVars("C:/Users/username/Documents/Size Analysis")
+#' # Run the function
+#' # mypath = "data/TextFiles"
+#' mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+#' varnames = CheckSet_DirecVars(mypath)
+#' print(varnames)
 #'
 CheckSet_DirecVars = function(path){
   if(substr(path,nchar(path),nchar(path)) == "/"){
@@ -16,10 +20,15 @@ CheckSet_DirecVars = function(path){
   }
 
   DS <- fs::dir_ls(path = path, recurse = TRUE, type = "directory") # Check only the folder names within path
+  #DS = as.data.frame(DS)
   DS = sub(paste(path,"/",sep=""),"",DS)
   DS = unname(strsplit(DS, split = "/")) # split them on the "/" symbol
   N.folders <- sapply(DS, length) # number of folders in each directory
-  DS <- as.data.frame(t(sapply(DS, "[", i = 1:max(N.folders))))
+  if(length(unique(N.folders)) > 1){
+    DS <- as.data.frame(t(sapply(DS, "[", i = 1:max(N.folders))))
+  } else if(length(unique(N.folders)) == 1){
+    DS <- as.data.frame(t(t(sapply(DS, "[", i = 1:max(N.folders)))))
+  }
   colnames(DS) <- paste("Directory","Level",1:ncol(DS))
   utils::head(DS)
 

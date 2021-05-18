@@ -10,6 +10,11 @@
 #' @export
 #'
 #' @examples
+#' # load in the output of Build_Uncalibrated_Dataset
+#' mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+#' load(paste0(path.package("SizeExtractR"), "/data/Database.RData"))
+#'
+#' # Run the function
 #' Label.Translator = CheckSet_ROILabelVars(Database, mypath)
 #'
 CheckSet_ROILabelVars = function(data, path){

@@ -11,7 +11,13 @@
 #' @importFrom rlang .data
 #'
 #' @examples
+#' # load in the output of CheckSet_DirecVars
+#' mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+#' load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+#'
+#' # Run the function
 #' Database = Build_Uncalibrated_Dataset(mypath, varnames)
+#' head(Database)
 #'
 Build_Uncalibrated_Dataset = function(path, var.names){
   if(substr(path,nchar(path),nchar(path)) == "/"){

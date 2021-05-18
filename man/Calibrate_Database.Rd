@@ -22,6 +22,20 @@ Length, Position, Area, and Volume are all given in square centimeters.
 Calibrate the SizeExtractR database, based on known calibration length (cm)
 }
 \examples{
-Database.cal = Calibrate_Database(Database.ROILab, known.length = 10)
+# load in the output of Add_ROILabelVars
+load(paste0(path.package("SizeExtractR"), "/data/Database.ROILab.RData"))
+
+#Run the function
+Database.cal = Calibrate_Database(Database.ROILab, known.length = 1)
+
+# Histogram of Egg Sizes:
+par(mfrow = c(1,2))
+# Uncalibrated
+ind = which(Database.ROILab$ROI.Code == "e")
+hist(Database.ROILab$Area[ind], xlab = "Area (pixels)", main = "Uncalibrated Egg Sizes")
+
+# Calibrated
+ind2 = which(Database.cal$ROI.Code == "e")
+hist(Database.cal$Area[ind2], xlab = bquote(Area~(cm^2)), main = "Calibrated Egg Sizes")
 
 }

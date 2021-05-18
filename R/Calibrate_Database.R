@@ -13,10 +13,24 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' Database.cal = Calibrate_Database(Database.ROILab, known.length = 10)
+#' # load in the output of Add_ROILabelVars
+#' load(paste0(path.package("SizeExtractR"), "/data/Database.ROILab.RData"))
+#'
+#' #Run the function
+#' Database.cal = Calibrate_Database(Database.ROILab, known.length = 1)
+#'
+#' # Histogram of Egg Sizes:
+#' par(mfrow = c(1,2))
+#' # Uncalibrated
+#' ind = which(Database.ROILab$ROI.Code == "e")
+#' hist(Database.ROILab$Area[ind], xlab = "Area (pixels)", main = "Uncalibrated Egg Sizes")
+#'
+#' # Calibrated
+#' ind2 = which(Database.cal$ROI.Code == "e")
+#' hist(Database.cal$Area[ind2], xlab = bquote(Area~(cm^2)), main = "Calibrated Egg Sizes")
 #'
 Calibrate_Database = function(datalab, known.length){
-  Cali = datalab %>% subset(.data$ROI.Code=="M") # Choose M because these are the calibration lengths
+  Cali = datalab[which(datalab$ROI.Code=="M"),] # Choose M because these are the calibration lengths
   Cali$ROI.Code = as.character(Cali$ROI.Rep)
   Cali2 <- Cali %>%
     dplyr::group_by(.data$Photo.Order) %>%

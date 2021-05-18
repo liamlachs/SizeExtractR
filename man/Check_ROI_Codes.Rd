@@ -18,6 +18,10 @@ Also returns a character string reading "success", which is not used in further 
 Check for mistakes in ROI Codes from the SizeExctractR ImageJ tools and protocol
 }
 \examples{
+# load in the output of Build_Uncalibrated_Dataset
+load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+
+# Run the function
 Check_ROI_Codes(Database)
 
 }

@@ -9,7 +9,18 @@
 #' @export
 #'
 #' @examples
+#' # load in the output of Build_Uncalibrated_Dataset and CheckSet_ROILabelVars
+#' load(paste0(path.package("SizeExtractR"), "/data/Database.RData"))
+#' load(paste0(path.package("SizeExtractR"), "/data/Label.Translator.RData"))
+#'
+#' # Run the function
 #' Database.ROILab = Add_ROILabelVars(Database, Label.Translator)
+#'
+#' # Dataframe withour ROI labels
+#' head(Database[(ncol(Database)-5):ncol(Database)])
+#'
+#' # DataframeWith ROI Labels
+#' head(Database.ROILab[(ncol(Database.ROILab)-5):ncol(Database.ROILab)])
 #'
 Add_ROILabelVars = function(data, label.translator){
 
