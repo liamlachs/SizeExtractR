@@ -90,11 +90,9 @@ CheckSet_ROILabelVars = function(data){
 
         message(paste("\n_____________________________________\n\n",
                       "Is the ROI labeling system correct?\n\n",
-                      "1: Yes\n",
-                      "2: No\n",
                       "_____________________________________\n\n"))
 
-        x <- readline("Answer (1 or 2): ")
+        x = menu(c("Yes", "No"))
 
         if(x != 1 && x != 2){
           message("Error: must enter either 1 or 2\n\nTry again")
@@ -142,11 +140,9 @@ CheckSet_ROILabelVars = function(data){
 
           message(paste("\n_____________________________________\n\n",
                         "Is the processed ROI labeling system correct?\n\n",
-                        "1: Yes\n",
-                        "2: No\n",
                         "_____________________________________\n\n"))
 
-          x <- readline("Answer (1 or 2): ")
+          x = menu(c("Yes", "No"))
 
           if(x != 1 && x != 2){
             message("Error: must enter either 1 or 2\n\nTry again")

@@ -49,12 +49,10 @@ CheckSet_DirecVars = function(path){
 
   message(paste("\n_____________________________________\n\n",
                 "Is the directory structure correct?\n",
-                "     (see above for details)\n\n",
-                "1: Yes\n",
-                "2: No\n",
+                "     (see above for details)\n",
                 "_____________________________________\n\n"))
 
-  x <- readline("Answer (1 or 2): ")
+  x = menu(c("Yes", "No"))
 
   if(x != 1 && x != 2){
     message("Error: must enter either 1 or 2\n\nTry again")

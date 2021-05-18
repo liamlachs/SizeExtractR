@@ -32,11 +32,9 @@ Check_ROI_Codes = function(data){
   message(paste("\n_____________________________________\n\n",
                 "Are the ROI Code Names Correct?\n",
                 "     (see above for details)\n\n",
-                "1: Yes\n",
-                "2: No\n",
                 "_____________________________________\n\n"))
 
-  x <- readline("Answer (1 or 2): ")
+  x = menu(c("Yes", "No"))
 
   if(x != 1 && x != 2){
     message("Error: must enter either 1 or 2\n\nTry again")
