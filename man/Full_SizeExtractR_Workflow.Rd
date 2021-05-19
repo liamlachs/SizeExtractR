@@ -34,8 +34,10 @@ mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
 Database.cal.SizeOnly = Full_SizeExtractR_Workflow(mypath, 1, FALSE)
 
 # Show dataset
-head(Database.cal.SizeOnly)
-colnames(Database.cal.SizeOnly)
-hist(Database.cal.SizeOnly$Area, xlab = bquote(Egg~Area~(cm^2)), main = "Size Only Dataset")
+if(length(Database.cal.SizeOnly) > 0){
+  head(Database.cal.SizeOnly)
+  colnames(Database.cal.SizeOnly)
+  hist(Database.cal.SizeOnly$Area, xlab = bquote(Egg~Area~(cm^2)), main = "Size Only Dataset")
+}
 
 }
