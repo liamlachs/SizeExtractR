@@ -12,10 +12,12 @@
 #' @examples
 #' # load in the output of Build_Uncalibrated_Dataset
 #' mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
-#' load(paste0(path.package("SizeExtractR"), "/data/Database.RData")
+#' load(paste0(path.package("SizeExtractR"), "/data/Database.RData"))
 #'
 #' # Run the function
 #' Label.Translator = CheckSet_ROILabelVars(Database, mypath)
+#'
+#' print(Label.Translator, row.names = F)
 #'
 CheckSet_ROILabelVars = function(data, path){
   Lab.txt.levs = levels(as.factor(data$ROI.Label))
