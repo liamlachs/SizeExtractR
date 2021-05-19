@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![R build
+status](https://github.com/liamlachs/SizeExtractR/workflows/R-CMD-check/badge.svg)](https://github.com/liamlachs/SizeExtractR/actions)
 <!-- badges: end -->
 
 #### Goal
