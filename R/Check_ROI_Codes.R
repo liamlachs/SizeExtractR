@@ -72,12 +72,14 @@ Check_ROI_Codes = function(data){
                   "Then run the script again.\n\n",
                   "See the offending Image location above.\n\n",
                   "Or simply answer 'yes' that the ROI code is correct.", sep = ""))
+    ErrorObjects$Success = "No"
+    return(ErrorObjects)
   }
 
 
   if(x == 1){
     message("\nGood - directory is correct - continue.")
-    Result = "Success"
-    return(Result)
+    levs$Success = "Yes"
+    return(levs)
   }
 }
