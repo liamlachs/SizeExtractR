@@ -27,7 +27,7 @@ Run the full SizeExtractR workflow - a series of nested functions to extract all
 }
 \examples{
 # Set directory within which all text files are located
-mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+mypath = paste0(.libPaths()[1],"/SizeExtractR/TextFiles")
 
 # Run the function
 

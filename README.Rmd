@@ -48,4 +48,4 @@ This is the output from a [Lachs et al. (2021)](https://doi.org/10.1007/s00338-0
 
 Coral Population Size Structure:
 
-![](Size-Frequencies-Coral-Example.png)
+![](inst/Size-Frequencies-Coral-Example.png)

@@ -4,12 +4,12 @@
 #'
 #' @docType data
 #'
-#' @usage data(Label.Translator, row.names = F)
+#' @usage data(Label.Translator)
 #'
 #' @format An object of class dataframe
 #'
 #' @keywords datasets
 
 #' @examples
-#' print(Label.Translator, row.names = F)
+#' head(Label.Translator)
 "Label.Translator"

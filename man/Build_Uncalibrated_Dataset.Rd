@@ -19,8 +19,9 @@ Build the Uncalibrated Dataset for further use in SizeExctractR
 }
 \examples{
 # load in the output of CheckSet_DirecVars
-mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
-load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+mypath = paste0(.libPaths()[1],"/SizeExtractR/TextFiles")
+print(mypath)
+data(varnames)
 
 # Run the function
 Database = Build_Uncalibrated_Dataset(mypath, varnames)

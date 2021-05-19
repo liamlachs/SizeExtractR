@@ -23,12 +23,14 @@ Check for mistakes in ROI Labels from the SizeExctractR ImageJ tools and protoco
 }
 \examples{
 # load in the output of Build_Uncalibrated_Dataset
-mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
-load(paste0(path.package("SizeExtractR"), "/data/Database.RData"))
+mypath = paste0(.libPaths()[1],"/SizeExtractR/TextFiles")
+data(Database)
 
 # Run the function
 Label.Translator = CheckSet_ROILabelVars(Database, mypath)
 
-print(Label.Translator, row.names = F)
+if(length(Label.Translator) > 0){
+  print(Label.Translator, row.names = F)
+}
 
 }

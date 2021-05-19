@@ -18,10 +18,11 @@ It also provides a user interface to check the Directory structure is suitable f
 Check Directory Structure, and Set Directory-derived Variable Names
 }
 \examples{
+# Set the path within which all text files (from image analysis) are found
+mypath = paste0(.libPaths()[1],"/SizeExtractR/TextFiles")
+
 # Run the function
-# mypath = "data/TextFiles"
-mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
 varnames = CheckSet_DirecVars(mypath)
-print(varnames)
+if(length(varnames) > 0){print(varnames)}
 
 }

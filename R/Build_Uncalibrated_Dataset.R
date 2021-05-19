@@ -12,8 +12,9 @@
 #'
 #' @examples
 #' # load in the output of CheckSet_DirecVars
-#' mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
-#' load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+#' mypath = paste0(.libPaths()[1],"/SizeExtractR/TextFiles")
+#' print(mypath)
+#' data(varnames)
 #'
 #' # Run the function
 #' Database = Build_Uncalibrated_Dataset(mypath, varnames)
@@ -27,8 +28,9 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   # Load in the data
   txt_files_ls = list.files(path=path, pattern="*.txt", recursive = TRUE)
   txt_files_ls = as.vector(txt_files_ls)
-  txt_files_df <- lapply(txt_files_ls, function(x) {utils::read.delim(file = paste(path, "/",x,sep=""))})
-  combined_df <- do.call("bind_rows", lapply(txt_files_df, as.data.frame))
+  txt_files_df <- lapply(txt_files_ls, function(x) {as.data.frame(utils::read.delim(file = paste(path, "/",x,sep="")))})
+  #combined_df <- dplyr::bind_rows(lapply(txt_files_df, as.data.frame))
+  combined_df <- dplyr::bind_rows(txt_files_df)
   dummy = as.vector(c(1:length(txt_files_ls)))
   for (i in 1:length(txt_files_ls)){
     dummy[[i]] <- length(txt_files_df[[i]]$X)

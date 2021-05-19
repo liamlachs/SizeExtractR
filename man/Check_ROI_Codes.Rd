@@ -19,9 +19,9 @@ Check for mistakes in ROI Codes from the SizeExctractR ImageJ tools and protocol
 }
 \examples{
 # load in the output of Build_Uncalibrated_Dataset
-load(paste0(path.package("SizeExtractR"), "/data/varnames.RData"))
+data(Database)
 
 # Run the function
-Check_ROI_Codes(Database)
-
+ROI.Codes = Check_ROI_Codes(Database)
+if(length(ROI.Codes) > 0){print(ROI.Codes)}
 }

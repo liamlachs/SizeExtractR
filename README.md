@@ -57,4 +57,4 @@ population dynamics before and after mass bleaching in 2016.
 
 Coral Population Size Structure:
 
-![](Size-Frequencies-Coral-Example.png)
+![](inst/Size-Frequencies-Coral-Example.png)

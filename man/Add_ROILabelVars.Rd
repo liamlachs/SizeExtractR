@@ -21,8 +21,9 @@ Add Variables to SizeExractR Database, based on ROI Label Translator Matrix
 }
 \examples{
 # load in the output of Build_Uncalibrated_Dataset and CheckSet_ROILabelVars
-load(paste0(path.package("SizeExtractR"), "/data/Database.RData"))
-load(paste0(path.package("SizeExtractR"), "/data/Label.Translator.RData"))
+data(Database)
+data(Label.Translator)
+
 
 # Run the function
 Database.ROILab = Add_ROILabelVars(Database, Label.Translator)

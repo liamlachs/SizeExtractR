@@ -17,7 +17,7 @@ Reduce the calibrated SzeExtractR database by removing all calibration ROIs
 }
 \examples{
 # load in the output of Add_ROILabelVars
-load(paste0(path.package("SizeExtractR"), "/data/Database.cal.RData"))
+data(Database.cal)
 
 # Run the function
 Database.SizeOnly = SizeOnly_Database(Database.cal)

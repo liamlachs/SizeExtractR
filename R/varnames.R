@@ -11,5 +11,5 @@
 #' @keywords datasets
 
 #' @examples
-#' print(varnames)
+#' head(varnames)
 "varnames"

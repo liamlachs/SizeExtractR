@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # Set directory within which all text files are located
-#' mypath = paste0(path.package("SizeExtractR"), "/inst/TextFiles")
+#' mypath = paste0(.libPaths()[1],"/SizeExtractR/TextFiles")
 #'
 #' # Run the function
 #'
@@ -25,50 +25,53 @@
 #' }
 #'
 Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.calibrations){
-
-  # 1) Set Variable Names
-  var.names = CheckSet_DirecVars(path)
-  if(length(var.names) == 0){
-    message("Aborted rest of workflow")
-  }
-
-  # 2) Build Uncalibrated Database
-  if(length(var.names) > 0){
-    data = Build_Uncalibrated_Dataset(path, var.names)
-
-    # 3) Check ROI Codes are okay
-    ROI_Codes = Check_ROI_Codes(data)
-    if(ROI_Codes$Success[1] == "No"){
+  if(interactive()){
+    # 1) Set Variable Names
+    var.names = CheckSet_DirecVars(path)
+    if(length(var.names) == 0){
       message("Aborted rest of workflow")
     }
 
-    # 4) Check ROI Labels and make Translator
-    if(ROI_Codes$Success[1] == "Yes"){
-      label.translator = CheckSet_ROILabelVars(data, path)
-      if(nrow(label.translator) == 0){
+    # 2) Build Uncalibrated Database
+    if(length(var.names) > 0){
+      data = Build_Uncalibrated_Dataset(path, var.names)
+
+      # 3) Check ROI Codes are okay
+      ROI_Codes = Check_ROI_Codes(data)
+      if(ROI_Codes$Success[1] == "No"){
         message("Aborted rest of workflow")
       }
 
-      # 5) Add ROI Labels to Database
-      if(nrow(label.translator) > 0){
-        data.ROIlab = Add_ROILabelVars(data, label.translator)
-
-        # 6) Calibrate Database
-        data.cal = Calibrate_Database(data.ROIlab, known.calibration.length)
-
-        # 7) Return Size Only Database
-        data.sizeonly = SizeOnly_Database(data.cal)
-
-        if(include.calibrations == TRUE){
-          message("Success - Calibrated Full Dataset returned to R object")
-          return(data.cal)
+      # 4) Check ROI Labels and make Translator
+      if(ROI_Codes$Success[1] == "Yes"){
+        label.translator = CheckSet_ROILabelVars(data, path)
+        if(nrow(label.translator) == 0){
+          message("Aborted rest of workflow")
         }
 
-        if(include.calibrations == FALSE){
-          message("Success - Calibrated Size-only Dataset returned to R object")
-          return(data.sizeonly)
+        # 5) Add ROI Labels to Database
+        if(nrow(label.translator) > 0){
+          data.ROIlab = Add_ROILabelVars(data, label.translator)
+
+          # 6) Calibrate Database
+          data.cal = Calibrate_Database(data.ROIlab, known.calibration.length)
+
+          # 7) Return Size Only Database
+          data.sizeonly = SizeOnly_Database(data.cal)
+
+          if(include.calibrations == TRUE){
+            message("Success - Calibrated Full Dataset returned to R object")
+            return(data.cal)
+          }
+
+          if(include.calibrations == FALSE){
+            message("Success - Calibrated Size-only Dataset returned to R object")
+            return(data.sizeonly)
+          }
         }
       }
     }
+  } else {
+    message("Not in interactive mode")
   }
 }

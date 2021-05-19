@@ -14,6 +14,6 @@ data(varnames)
 A vector of Variable Names that will be used later in database formation within SizeExtractR.
 }
 \examples{
-print(varnames)
+head(varnames)
 }
 \keyword{datasets}

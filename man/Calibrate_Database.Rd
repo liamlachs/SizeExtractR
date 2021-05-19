@@ -23,7 +23,7 @@ Calibrate the SizeExtractR database, based on known calibration length (cm)
 }
 \examples{
 # load in the output of Add_ROILabelVars
-load(paste0(path.package("SizeExtractR"), "/data/Database.ROILab.RData"))
+data(Database.ROILab)
 
 #Run the function
 Database.cal = Calibrate_Database(Database.ROILab, known.length = 1)

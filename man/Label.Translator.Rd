@@ -8,12 +8,12 @@
 An object of class dataframe
 }
 \usage{
-data(Label.Translator, row.names = F)
+data(Label.Translator)
 }
 \description{
 A dataframe showing the translation from the coded labels attached to Regions of Interest (ROI) in imageJ, to dataframe varibales (TRUE/FALSE).
 }
 \examples{
-print(Label.Translator, row.names = F)
+head(Label.Translator)
 }
 \keyword{datasets}
