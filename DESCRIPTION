@@ -12,7 +12,7 @@ RoxygenNote: 7.1.1
 URL: https://github.com/liamlachs/SizeExtractR
 BugReports: https://github.com/liamlachs/SizeExtractR/issues
 Date: 2021-05-17
-Imports:
+Depends:
     dplyr,
     tidyr,
     stringr,
