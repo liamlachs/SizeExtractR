@@ -15,7 +15,7 @@ Full_SizeExtractR_Workflow(
 
 \item{known.calibration.length}{a numerical value of the length of calibration lengths from image analyses (in centimeters).}
 
-\item{include.calibrations}{either TRUE of FALSE, determines whether or not to include the calibration-length ROIs alongside the ROIs of interest.}
+\item{include.calibrations}{logical. Determines whether or not to include the calibration-length ROIs alongside the ROIs of interest.}
 }
 \value{
 Returns a calibrated dataset of size metrics, that includes user defined variables based on 1) the directory structure, and 2) the ROI labels used in image analyses.
