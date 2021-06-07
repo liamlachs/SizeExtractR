@@ -79,7 +79,7 @@ Check_ROI_Codes = function(data){
 
 
     if(x == 1){
-      message("\nGood - directory is correct - continue.")
+      message("\nGood - ROI codes are correct - continue.")
       levs$Success = "Yes"
       return(levs)
     }

@@ -25,17 +25,23 @@
 #'
 Add_ROILabelVars = function(data, label.translator){
 
-  data$ROI.Label = addNA(data$ROI.Label)
-  datalab = as.data.frame(matrix(NA,nrow = nrow(data), ncol = ncol(label.translator)-1))
-  colnames(datalab) = colnames(label.translator)[-1]
-  for(j in 1:ncol(datalab)){
-    for(i in 1:nrow(label.translator)){
-      datalab[data$ROI.Label == label.translator$ROI.Label[i],j] = as.character(label.translator[i,j+1])
+  if(length(label.translator) == 1 && label.translator == "No_Labels_Used"){
+    message("No labels used - returning same dataframe as input dataframe")
+    return(data)
+  } else {
+    data$ROI.Label = addNA(data$ROI.Label)
+    datalab = as.data.frame(matrix(NA,nrow = nrow(data), ncol = ncol(label.translator)-1))
+    colnames(datalab) = colnames(label.translator)[-1]
+    for(j in 1:ncol(datalab)){
+      for(i in 1:nrow(label.translator)){
+        datalab[data$ROI.Label == label.translator$ROI.Label[i],j] = as.character(label.translator[i,j+1])
+      }
     }
+    datalab.cols = colnames(datalab)
+    datalab[datalab.cols] <- lapply(datalab[datalab.cols],
+                                    factor)
+    datalab = cbind(data, datalab)
+    return(datalab)
   }
-  datalab.cols = colnames(datalab)
-  datalab[datalab.cols] <- lapply(datalab[datalab.cols],
-                                  factor)
-  datalab = cbind(data, datalab)
-  return(datalab)
+
 }

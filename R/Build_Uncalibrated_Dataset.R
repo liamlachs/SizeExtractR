@@ -36,7 +36,7 @@ Build_Uncalibrated_Dataset = function(path, var.names){
     dummy[[i]] <- length(txt_files_df[[i]]$X)
   }
   Directory = rep(txt_files_ls, times = dummy)
-  Directory
+  Directory = sub("ImageJ_Output/","",Directory)
   Photo.Order = factor(rep (1:length(txt_files_ls),times = dummy))
   DB = data.frame(Photo.Order,Directory,combined_df)
   colnames(DB)[which(colnames(DB) == "Length")] = c("Cal.Length")
@@ -52,16 +52,27 @@ Build_Uncalibrated_Dataset = function(path, var.names){
 
   DB = suppressWarnings(tidyr::separate(DB, .data$ROI.RepLab, into = c("ROI.Rep", "ROI.Label"),# https://stackoverflow.com/questions/9756360/split-character-data-into-numbers-and-letters
                                  sep = "(?<=[0-9])(?=[A-Za-z])"))
-  DB = suppressWarnings(tidyr::separate(DB, .data$Directory, var.names, "/"))
-  fact.cols = colnames(DB)[2:(length(var.names)+5)]
-  DB[fact.cols] <- lapply(DB[fact.cols],
-                          factor)
+  if(length(var.names) == 1 && var.names == "No_SubFolders_Present"){
+    fact.cols = colnames(DB)[2:5]
+    DB[fact.cols] <- lapply(DB[fact.cols],
+                            factor)
 
-  DB = DB %>%
-    dplyr::group_by_at(var.names) %>%
-    dplyr::mutate(Photo.Rep = as.factor(as.numeric(as.character(.data$Photo.Order)) - min(as.numeric(as.character(.data$Photo.Order))) + 1))
-  colnames(DB)
-  insert.ind = which(colnames(DB) == var.names[length(var.names)])
-  DB = DB[c(1:insert.ind, ncol(DB), (insert.ind + 1):(ncol(DB)-1))]
-  return(DB)
+    DB = DB %>%
+      dplyr::mutate(Photo.Rep = as.factor(as.numeric(as.character(.data$Photo.Order)) - min(as.numeric(as.character(.data$Photo.Order))) + 1))
+    return(DB)
+
+  } else {
+    DB = suppressWarnings(tidyr::separate(DB, .data$Directory, var.names, "/"))
+    fact.cols = colnames(DB)[2:(length(var.names)+5)]
+    DB[fact.cols] <- lapply(DB[fact.cols],
+                            factor)
+
+    DB = DB %>%
+      dplyr::group_by_at(var.names) %>%
+      dplyr::mutate(Photo.Rep = as.factor(as.numeric(as.character(.data$Photo.Order)) - min(as.numeric(as.character(.data$Photo.Order))) + 1))
+    colnames(DB)
+    insert.ind = which(colnames(DB) == var.names[length(var.names)])
+    DB = DB[c(1:insert.ind, ncol(DB), (insert.ind + 1):(ncol(DB)-1))]
+    return(DB)
+  }
 }

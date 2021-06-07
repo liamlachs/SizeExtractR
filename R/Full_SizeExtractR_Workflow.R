@@ -45,12 +45,37 @@ Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.ca
       # 4) Check ROI Labels and make Translator
       if(ROI_Codes$Success[1] == "Yes"){
         label.translator = CheckSet_ROILabelVars(data, path)
-        if(nrow(label.translator) == 0){
-          message("Aborted rest of workflow")
+        if(is.data.frame(label.translator)){
+          if(nrow(label.translator) == 0){
+            message("Aborted rest of workflow")
+          }
         }
 
-        # 5) Add ROI Labels to Database
-        if(nrow(label.translator) > 0){
+        if(is.data.frame(label.translator)){
+          if(nrow(label.translator) > 0){
+
+            # 5) Add ROI Labels to Database
+            data.ROIlab = Add_ROILabelVars(data, label.translator)
+
+            # 6) Calibrate Database
+            data.cal = Calibrate_Database(data.ROIlab, known.calibration.length)
+
+            # 7) Return Size Only Database
+            data.sizeonly = SizeOnly_Database(data.cal)
+
+            if(include.calibrations == TRUE){
+              message("Success - Calibrated Full Dataset returned to R object")
+              return(data.cal)
+            }
+
+            if(include.calibrations == FALSE){
+              message("Success - Calibrated Size-only Dataset returned to R object")
+              return(data.sizeonly)
+            }
+          }
+        } else {
+
+          # 5) Add ROI Labels to Database
           data.ROIlab = Add_ROILabelVars(data, label.translator)
 
           # 6) Calibrate Database
