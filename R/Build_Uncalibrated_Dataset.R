@@ -29,6 +29,7 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   txt_files_ls = list.files(path=path, pattern="*.txt", recursive = TRUE)
   txt_files_ls = as.vector(txt_files_ls)
   txt_files_df <- lapply(txt_files_ls, function(x) {as.data.frame(utils::read.delim(file = paste(path, "/",x,sep="")))})
+  # Remove Row Number
   txt_files_df <- lapply(txt_files_df,  function(x) {if(colnames(x)[1] == "X.1" | colnames(x)[1] == "X"){x[-1]} else {x}})
   #combined_df <- dplyr::bind_rows(lapply(txt_files_df, as.data.frame))
   combined_df <- dplyr::bind_rows(txt_files_df)
