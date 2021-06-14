@@ -46,9 +46,15 @@ Calibrate_Database = function(datalab, known.length){
   datacal$Area = (datacal$Area*(known.length^2))/(datacal$Cal.Length.mean^2)
   datacal$Diameter.circular = sqrt(datacal$Area/pi)*2
   datacal$Volume.spherical = ((4*pi)/3)*((datacal$Diameter.circular/2)^3)
-  datacal$X = (datacal$X*known.length)/datacal$Cal.Length.mean
-  datacal$Y = (datacal$Y*known.length)/datacal$Cal.Length.mean
-  datacal$Perim. = (datacal$Perim.*known.length)/datacal$Cal.Length.mean
+  if(is.element("X", colnames(datacal))){
+    datacal$X = (datacal$X*known.length)/datacal$Cal.Length.mean
+  }
+  if(is.element("Y", colnames(datacal))){
+      datacal$Y = (datacal$Y*known.length)/datacal$Cal.Length.mean
+  }
+  if(is.element("Perim.", colnames(datacal))){
+    datacal$Perim. = (datacal$Perim.*known.length)/datacal$Cal.Length.mean
+  }
   datacal$BX = (datacal$BX*known.length)/datacal$Cal.Length.mean
   datacal$BY = (datacal$BY*known.length)/datacal$Cal.Length.mean
   datacal$Width = (datacal$Width*known.length)/datacal$Cal.Length.mean
