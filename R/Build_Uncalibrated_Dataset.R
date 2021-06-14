@@ -42,8 +42,12 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   Photo.Order = factor(rep (1:length(txt_files_ls),times = dummy))
   DB = data.frame(Photo.Order,Directory,combined_df)
   colnames(DB)[which(colnames(DB) == "Length")] = c("Cal.Length")
-  DB = DB[-which(colnames(DB) == "Counter")]
-  DB = DB[-which(colnames(DB) == "Count")]
+  if(is.element("Counter", colnames(DB))){
+    DB = DB[-which(colnames(DB) == "Counter")]
+  }
+  if(is.element("Count", colnames(DB))){
+    DB = DB[-which(colnames(DB) == "Count")]
+  }
 
   #Split columns to make new variables
   # Ignore Warnings in these lines " Expected 2 [or 3] pieces...."
