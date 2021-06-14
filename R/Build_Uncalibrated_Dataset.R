@@ -29,6 +29,7 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   txt_files_ls = list.files(path=path, pattern="*.txt", recursive = TRUE)
   txt_files_ls = as.vector(txt_files_ls)
   txt_files_df <- lapply(txt_files_ls, function(x) {as.data.frame(utils::read.delim(file = paste(path, "/",x,sep="")))})
+  txt_files_df <- lapply(txt_files_df,  function(x) {if(colnames(x)[1] == "X.1" | colnames(x)[1] == "X"){x[-1]} else {x}})
   #combined_df <- dplyr::bind_rows(lapply(txt_files_df, as.data.frame))
   combined_df <- dplyr::bind_rows(txt_files_df)
   dummy = as.vector(c(1:length(txt_files_ls)))
@@ -40,9 +41,8 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   Photo.Order = factor(rep (1:length(txt_files_ls),times = dummy))
   DB = data.frame(Photo.Order,Directory,combined_df)
   colnames(DB)[which(colnames(DB) == "Length")] = c("Cal.Length")
-  DB = DB[-which(colnames(DB) == "X.1")]
-  DB = DB[-which(colnames(DB) == "X")]
-  DB = DB[-which(colnames(DB) == "Y")]
+  DB = DB[-which(colnames(DB) == "Counter")]
+  DB = DB[-which(colnames(DB) == "Count")]
 
   #Split columns to make new variables
   # Ignore Warnings in these lines " Expected 2 [or 3] pieces...."
