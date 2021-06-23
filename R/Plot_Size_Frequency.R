@@ -201,7 +201,7 @@ Plot_Size_Frequency = function(data, size.metric, log_size = FALSE,
           P = P + ggplot2::facet_grid(ggplot2::vars(.data[[facetCol_by]]),
                                       scales = scales_gg)
         }
-        if(facetRow. == T && facetRow. == T){
+        if(facetRow. == T && facetCol. == T){
           P = P + ggplot2::facet_grid(ggplot2::vars(.data[[facetCol_by]]),
                                       ggplot2::vars(.data[[facetRow_by]]),
                                       labeller = "label_both",
