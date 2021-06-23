@@ -40,6 +40,7 @@ Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.ca
       ROI_Codes = Check_ROI_Codes(data)
       if(ROI_Codes$Success[1] == "No"){
         message("Aborted rest of workflow")
+        return(ROI_Codes)
       }
 
       # 4) Check ROI Labels and make Translator
