@@ -89,9 +89,9 @@ Plot_Size_Frequency = function(data, size.metric, log_size = FALSE,
           pb = ggplot2::ggplot_build(P)[["data"]][[1]]
 
           grpnum = which(grplevs. == unique(x1$group_byPaste))
-          MaxCount = max(pb$count[which(pb$group == grpnum)])
+          MaxCount = max(pb$count[which(pb$group == grpnum)],na.rm=T)
 
-          fit$y = fit$y * MaxCount/ max(fit$y) # bin number = bins
+          fit$y = fit$y * MaxCount/ max(fit$y,na.rm=T) # bin number = bins
 
           if(log_size == TRUE){
             fit$x = exp(fit$x)
@@ -112,11 +112,11 @@ Plot_Size_Frequency = function(data, size.metric, log_size = FALSE,
         data2 <- data %>%
           dplyr::group_by_at(Allgroup_by) %>%
           dplyr::do(dplyr::as_tibble(data.frame(yVar = density_counts2(x = .data[size.metric][[1]], x1 = .data, xall = data,
-                                                                       from. = min(yVar.vals), to. = max(yVar.vals),
+                                                                       from. = min(yVar.vals, na.rm=T), to. = max(yVar.vals,na.rm=T),
                                                                        n. = 512, log_size=log_size, nbins = nbins,
                                                                        grplevs. = grplevs.)$x,
                                                 Count = density_counts2(x = .data[size.metric][[1]], x1 = .data, xall = data,
-                                                                        from. = min(yVar.vals), to. = max(yVar.vals),
+                                                                        from. = min(yVar.vals,na.rm=T), to. = max(yVar.vals,na.rm=T),
                                                                         n. = 512, log_size=log_size,  nbins = nbins,
                                                                         grplevs. = grplevs.)$y)))
 

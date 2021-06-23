@@ -66,6 +66,10 @@ Build_Uncalibrated_Dataset = function(path, var.names){
       dplyr::mutate(Photo.Rep = as.factor(as.numeric(as.character(.data$Photo.Order)) - min(as.numeric(as.character(.data$Photo.Order))) + 1))
     return(DB)
 
+    if(length(which(is.na(DB$Area) == TRUE)) > 0){
+      message("Warning - NA values found in size metrics. Check dataset for potential mistake in text files")
+    }
+
   } else {
     DB = suppressWarnings(tidyr::separate(DB, .data$Directory, var.names, "/"))
     fact.cols = colnames(DB)[2:(length(var.names)+5)]
@@ -79,5 +83,9 @@ Build_Uncalibrated_Dataset = function(path, var.names){
     insert.ind = which(colnames(DB) == var.names[length(var.names)])
     DB = DB[c(1:insert.ind, ncol(DB), (insert.ind + 1):(ncol(DB)-1))]
     return(DB)
+
+    if(length(which(is.na(DB$Area) == TRUE)) > 0){
+      message("Warning - NA values found in size metrics. Check dataset for potential mistake in text files")
+    }
   }
 }
