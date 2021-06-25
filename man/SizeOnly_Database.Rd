@@ -26,7 +26,7 @@ Database.SizeOnly = SizeOnly_Database(Database.cal)
 par(mfrow = c(1,2))
 
 # Full Dataset
-ind=which(Database.cal$ROI.Code == "e")
+ind=which(Database.cal$ROI.Type == "e")
 hist(Database.cal$Area[ind], xlab = bquote(Egg~Area~(cm^2)), main = "Full Dataset")
 
 # SizeOnly Dataset

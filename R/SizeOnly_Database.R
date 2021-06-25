@@ -17,13 +17,13 @@
 #' par(mfrow = c(1,2))
 #'
 #' # Full Dataset
-#' ind=which(Database.cal$ROI.Code == "e")
+#' ind=which(Database.cal$ROI.Type == "e")
 #' hist(Database.cal$Area[ind], xlab = bquote(Egg~Area~(cm^2)), main = "Full Dataset")
 #'
 #' # SizeOnly Dataset
 #' hist(Database.SizeOnly$Area, xlab = bquote(Egg~Area~(cm^2)), main = "Size Only Dataset")
 #'
 SizeOnly_Database = function(datacal){
-  datacal.SizeOnly = datacal[which(is.na(match(datacal$ROI.Code,c("Cali_Pts","M"))) == TRUE),]
+  datacal.SizeOnly = datacal[which(is.na(match(datacal$ROI.Type,c("Cali_Pts","M"))) == TRUE),]
   return(datacal.SizeOnly)
 }

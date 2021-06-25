@@ -36,16 +36,16 @@ Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.ca
     if(length(var.names) > 0){
       data = Build_Uncalibrated_Dataset(path, var.names)
 
-      # 3) Check ROI Codes are okay
-      ROI_Codes = Check_ROI_Codes(data)
-      if(ROI_Codes$Success[1] == "No"){
+      # 3) Check ROI Types are okay
+      ROI_Types = Check_ROI_Types(data)
+      if(ROI_Types$Success[1] == "No"){
         message("Aborted rest of workflow")
-        return(ROI_Codes)
+        return(ROI_Types)
       }
 
-      # 4) Check ROI Labels and make Translator
-      if(ROI_Codes$Success[1] == "Yes"){
-        label.translator = CheckSet_ROILabelVars(data, path)
+      # 4) Check user-defined ROI Code and make Translator
+      if(ROI_Types$Success[1] == "Yes"){
+        label.translator = CheckSet_ROILabelCodeVars(data, path)
         if(is.data.frame(label.translator)){
           if(nrow(label.translator) == 0){
             message("Aborted rest of workflow")
@@ -55,11 +55,11 @@ Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.ca
         if(is.data.frame(label.translator)){
           if(nrow(label.translator) > 0){
 
-            # 5) Add ROI Labels to Database
-            data.ROIlab = Add_ROILabelVars(data, label.translator)
+            # 5) Add user-defined ROI Code Variables to Database
+            data.ROIcode = Add_ROILabelCodeVars(data, label.translator)
 
             # 6) Calibrate Database
-            data.cal = Calibrate_Database(data.ROIlab, known.calibration.length)
+            data.cal = Calibrate_Database(data.ROIcode, known.calibration.length)
 
             # 7) Return Size Only Database
             data.sizeonly = SizeOnly_Database(data.cal)
@@ -76,11 +76,11 @@ Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.ca
           }
         } else {
 
-          # 5) Add ROI Labels to Database
-          data.ROIlab = Add_ROILabelVars(data, label.translator)
+          # 5) Add user-defined ROI Code Variables to Database
+          data.ROIcode = Add_ROICodeVars(data, label.translator)
 
           # 6) Calibrate Database
-          data.cal = Calibrate_Database(data.ROIlab, known.calibration.length)
+          data.cal = Calibrate_Database(data.ROIcode, known.calibration.length)
 
           # 7) Return Size Only Database
           data.sizeonly = SizeOnly_Database(data.cal)

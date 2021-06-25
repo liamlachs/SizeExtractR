@@ -52,10 +52,10 @@ Build_Uncalibrated_Dataset = function(path, var.names){
   #Split columns to make new variables
   # Ignore Warnings in these lines " Expected 2 [or 3] pieces...."
   DB = tidyr::separate(DB, .data$Label, c("Photo.Name", "ROI"), ":")
-  DB = suppressWarnings(tidyr::separate(DB, .data$ROI, into = c("ROI.Code", "ROI.RepLab"), # "?<=" means look behind the split point, for any uppr or lower case letters ("A-Za-z")
+  DB = suppressWarnings(tidyr::separate(DB, .data$ROI, into = c("ROI.Type", "ROI.RepLab"), # "?<=" means look behind the split point, for any uppr or lower case letters ("A-Za-z")
                                  sep = "(?<=[A-Za-z])(?=[0-9])"))         # "?=" means look ahead after the cursor
 
-  DB = suppressWarnings(tidyr::separate(DB, .data$ROI.RepLab, into = c("ROI.Rep", "ROI.Label"),# https://stackoverflow.com/questions/9756360/split-character-data-into-numbers-and-letters
+  DB = suppressWarnings(tidyr::separate(DB, .data$ROI.RepLab, into = c("ROI.Rep", "ROI.LabelCode"),# https://stackoverflow.com/questions/9756360/split-character-data-into-numbers-and-letters
                                  sep = "(?<=[0-9])(?=[A-Za-z])"))
   if(length(var.names) == 1 && var.names == "No_SubFolders_Present"){
     fact.cols = colnames(DB)[2:5]

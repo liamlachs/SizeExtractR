@@ -17,7 +17,7 @@ Plot_Size_Frequency(
 )
 }
 \arguments{
-\item{data}{a dataframe of calibrated size metrics, that includes user defined variables based on 1) the directory structure, and 2) the ROI labels used in image analyses. As output from Full_SizeExtractR_Workflow, with calibration lengths not included}
+\item{data}{a dataframe of calibrated size metrics, that includes user defined variables based on 1) the directory structure, and 2) the full ROI labels used in image analyses. As output from Full_SizeExtractR_Workflow, with calibration lengths not included}
 
 \item{size.metric}{character vector of length 1. Input the name of the size metric of interest. Must be an element of colnames(data). Case sensitive.}
 

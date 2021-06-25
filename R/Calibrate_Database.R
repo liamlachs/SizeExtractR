@@ -1,10 +1,10 @@
 #' Calibrate the SizeExtractR database, based on known calibration length (cm)
 #'
-#' @param datalab An object of class dataframe as output directly from SizeExtractR::Add_ROILabelVars()
+#' @param datalab An object of class dataframe as output directly from SizeExtractR::Add_ROILabelCodeVars()
 #' @param known.length a numerical value of the length of calibration lengths from image analyses (in centimeters).
 #'
 #' @return For each image independently, this function returns a calibrated  SizeExtractR database (dataframe object).
-#' @return It does these calibrations on a per image basis. The mean number of pixels is calculated among all the calibration lengths in that image (i.e., ROIs with ROI.Code of "M"). This is then compared to the 'known.length' parameter, to compute all aspects of size of each ROI.
+#' @return It does these calibrations on a per image basis. The mean number of pixels is calculated among all the calibration lengths in that image (i.e., ROIs with ROI.Type of "M"). This is then compared to the 'known.length' parameter, to compute all aspects of size of each ROI.
 #' @return Length, Position, Area, and Volume are all given in square centimeters.
 #'
 #' @export
@@ -13,25 +13,25 @@
 #' @importFrom rlang .data
 #'
 #' @examples
-#' # load in the output of Add_ROILabelVars
-#' data(Database.ROILab)
+#' # load in the output of Add_ROILabelCodeVars
+#' data(Database.ROILabelCode)
 #'
 #' #Run the function
-#' Database.cal = Calibrate_Database(Database.ROILab, known.length = 1)
+#' Database.cal = Calibrate_Database(Database.ROILabelCode, known.length = 1)
 #'
 #' # Histogram of Egg Sizes:
 #' par(mfrow = c(1,2))
 #' # Uncalibrated
-#' ind = which(Database.ROILab$ROI.Code == "e")
-#' hist(Database.ROILab$Area[ind], xlab = "Area (pixels)", main = "Uncalibrated Egg Sizes")
+#' ind = which(Database.ROILabelCode$ROI.Type == "e")
+#' hist(Database.ROILabelCode$Area[ind], xlab = "Area (pixels)", main = "Uncalibrated Egg Sizes")
 #'
 #' # Calibrated
-#' ind2 = which(Database.cal$ROI.Code == "e")
+#' ind2 = which(Database.cal$ROI.Type == "e")
 #' hist(Database.cal$Area[ind2], xlab = bquote(Area~(cm^2)), main = "Calibrated Egg Sizes")
 #'
 Calibrate_Database = function(datalab, known.length){
-  Cali = datalab[which(datalab$ROI.Code=="M"),] # Choose M because these are the calibration lengths
-  Cali$ROI.Code = as.character(Cali$ROI.Rep)
+  Cali = datalab[which(datalab$ROI.Type=="M"),] # Choose M because these are the calibration lengths
+  Cali$ROI.Type = as.character(Cali$ROI.Rep)
   Cali2 <- Cali %>%
     dplyr::group_by(.data$Photo.Order) %>%
     dplyr::summarise(Cal.nums = max(as.character(.data$ROI.Rep)),
