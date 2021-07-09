@@ -77,7 +77,7 @@ Full_SizeExtractR_Workflow = function(path, known.calibration.length, include.ca
         } else {
 
           # 5) Add user-defined ROI Code Variables to Database
-          data.ROIcode = Add_ROICodeVars(data, label.translator)
+          data.ROIcode = Add_ROILabelCodeVars(data, label.translator)
 
           # 6) Calibrate Database
           data.cal = Calibrate_Database(data.ROIcode, known.calibration.length)
