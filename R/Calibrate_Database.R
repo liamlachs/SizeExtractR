@@ -1,11 +1,11 @@
 #' Calibrate the SizeExtractR database, based on known calibration length (cm)
 #'
 #' @param datalab An object of class dataframe as output directly from SizeExtractR::Add_ROILabelCodeVars()
-#' @param known.length a numerical value of the length of calibration lengths from image analyses (in centimeters).
+#' @param known.length a numerical value of the length of calibration lengths from image analyses (in user-defined units, e.g. centimeters).
 #'
 #' @return For each image independently, this function returns a calibrated  SizeExtractR database (dataframe object).
 #' @return It does these calibrations on a per image basis. The mean number of pixels is calculated among all the calibration lengths in that image (i.e., ROIs with ROI.Type of "M"). This is then compared to the 'known.length' parameter, to compute all aspects of size of each ROI.
-#' @return Length, Position, Area, and Volume are all given in square centimeters.
+#' @return Length, Position, Area, and Volume are all given in user-defined units, e.g. centimeters.
 #'
 #' @export
 #'
@@ -42,7 +42,7 @@ Calibrate_Database = function(datalab, known.length){
   datacal[] <- lapply(datacal, function(x) if(is.factor(x)) factor(x) else x)
   # CALIBRATIONS
   # CHECK ALL CALIBRATION METHODS
-  # All square centimeters
+  # All in user-defined units, e.g. centimeters
   datacal$Area = (datacal$Area*(known.length^2))/(datacal$Cal.Length.mean^2)
   datacal$Diameter.circular = sqrt(datacal$Area/pi)*2
   datacal$Volume.spherical = ((4*pi)/3)*((datacal$Diameter.circular/2)^3)

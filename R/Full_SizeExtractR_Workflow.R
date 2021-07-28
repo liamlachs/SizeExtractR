@@ -1,7 +1,7 @@
 #' Run the full SizeExtractR workflow - a series of nested functions to extract all sizes.
 #'
 #' @param path A Directory path within which holds the text files outputted from SizeExtractR imageJ tools and protocol. The directory path should be given in double quotes in the same format as that returned by the function getwd()
-#' @param known.calibration.length a numerical value of the length of calibration lengths from image analyses (in centimeters).
+#' @param known.calibration.length a numerical value of the length of calibration lengths from image analyses (in user-defined units, e.g. centimeters).
 #' @param include.calibrations logical. Determines whether or not to include the calibration-length ROIs alongside the ROIs of interest.
 #'
 #' @return Returns a calibrated dataset of size metrics, that includes user defined variables based on 1) the directory structure, and 2) the ROI labels used in image analyses.
