@@ -13,7 +13,7 @@ Full_SizeExtractR_Workflow(
 \arguments{
 \item{path}{A Directory path within which holds the text files outputted from SizeExtractR imageJ tools and protocol. The directory path should be given in double quotes in the same format as that returned by the function getwd()}
 
-\item{known.calibration.length}{a numerical value of the length of calibration lengths from image analyses (in centimeters).}
+\item{known.calibration.length}{a numerical value of the length of calibration lengths from image analyses (in user-defined units, e.g. centimeters).}
 
 \item{include.calibrations}{logical. Determines whether or not to include the calibration-length ROIs alongside the ROIs of interest.}
 }

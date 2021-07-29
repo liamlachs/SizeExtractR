@@ -47,7 +47,11 @@ CheckSet_ROILabelCodeVars = function(data, path){
                       "   4) Save and close the .csv file\n",
                       "   5) Rerun the CheckSet_ROILabelCodeVars function.\n\n",
                       "   NOTE: do not change the .csv filename or move to a different directory.\n",
-                      "         see label characters from text file imports (may contain errors).\n",
+                      "         see label characters from text file imports (may contain errors).\n\n",
+                      "   NOTE: Do not include ROI label codes in the csv file if they have not\n",
+                      "         been used any of the analysed images in your specified path.\n\n",
+                      "   NOTE: Only include ROI Label Codes (alphabetical after the number),\n",
+                      "         and not ROI Type codes (alphabetical before the number).\n",
                       "_________________________________________________________________\n\n"))
         print(data.frame(Label.Characters = Lab.txt.chars),row.names = F)
       } else {
@@ -123,57 +127,77 @@ CheckSet_ROILabelCodeVars = function(data, path){
             if(x == 1){
               #message("\nGood - labelling is correct - continue.")
 
-              # Set the Label.Translator dataframe
-              Label.Translator = data.frame(ROI.LabelCode = levels(as.factor(data$ROI.LabelCode)))
-              Label.Translator[2:(N.Lab.txt.chars+1)] = NA
-              colnames(Label.Translator)[2:(N.Lab.txt.chars+1)] <- as.character(Label.csv.data$Corresponding_Variable_Name)
-
-              # For each row in Label Translator calculate which Label Code variables have a TRUE or FALSE
-              # This is based on checking whether the string is contained or not
-              # Note: if one variable label code is "b" and a second variable label code is "bb"
-              #       then the "bb" will show a false positive for "b"
-              for(i in 1:nrow(Label.Translator)){
-                Label.Translator[i,2:(N.Lab.txt.chars+1)] = rbind(lapply(Label.csv.data$ROI_Label_code,
-                                                                         function(x){ grepl(x, Label.Translator$ROI.LabelCode[i], fixed = TRUE)}))
+              #check that the label.translater does not contain values that are not in the analysed images
+              xx=c()
+              for(i in 1:nrow(Label.csv.data)){
+                if(length(which(is.na(match(Label.csv.data$ROI_Label_code[i],Lab.txt.chars)) == FALSE)) == 0){
+                  xx=c(xx,i)
+                }
               }
+              if(length(xx)>0){
+                message(paste("\n________________________________________________________________\n\n",
+                              "Error: ROI Label Code included in csv file was not present in the\n",
+                              "Analysed images within the user-defined path directory.\n\n",
+                              "   1) See below for the offending ROI Label Code.\n",
+                              "   2) Remove he associated line from the 'ROI Label.csv' file.\n",
+                              "   3) Rerun this function.",
+                              "\n________________________________________________________________\n\n"))
+                print(Label.csv.data[xx,])
+              } else {
 
-              # To solve the false positive issue for "bb" as stated above, for example,
-              #    when one variable label code ("bb") is a repeat of a different variable label code ("b")
-              for( i in 1:nrow(Label.csv.data)){
-                N.reps = stringr::str_count(Label.Translator$ROI.Label, as.character(Label.csv.data$ROI_Label_code)[i])
-                Label.Translator[,1+i] = N.reps == 1
-              }
+                # Set the Label.Translator dataframe
+                Label.Translator = data.frame(ROI.LabelCode = levels(as.factor(data$ROI.LabelCode)))
+                Label.Translator[2:(N.Lab.txt.chars+1)] = NA
+                colnames(Label.Translator)[2:(N.Lab.txt.chars+1)] <- as.character(Label.csv.data$Corresponding_Variable_Name)
 
-              Label.Translator = rbind(Label.Translator, c(NA,rep(FALSE,ncol(Label.Translator)-1)))
-              fact.cols = colnames(Label.Translator)
-              Label.Translator[fact.cols] <- lapply(Label.Translator[fact.cols],
-                                                    factor)
-              Label.Translator$ROI.LabelCode = addNA(Label.Translator$ROI.LabelCode)
+                # For each row in Label Translator calculate which Label Code variables have a TRUE or FALSE
+                # This is based on checking whether the string is contained or not
+                # Note: if one variable label code is "b" and a second variable label code is "bb"
+                #       then the "bb" will show a false positive for "b"
+                for(i in 1:nrow(Label.Translator)){
+                  Label.Translator[i,2:(N.Lab.txt.chars+1)] = rbind(lapply(Label.csv.data$ROI_Label_code,
+                                                                           function(x){ grepl(x, Label.Translator$ROI.LabelCode[i], fixed = TRUE)}))
+                }
+
+                # To solve the false positive issue for "bb" as stated above, for example,
+                #    when one variable label code ("bb") is a repeat of a different variable label code ("b")
+                for( i in 1:nrow(Label.csv.data)){
+                  N.reps = stringr::str_count(Label.Translator$ROI.Label, as.character(Label.csv.data$ROI_Label_code)[i])
+                  Label.Translator[,1+i] = N.reps == 1
+                }
+
+                Label.Translator = rbind(Label.Translator, c(NA,rep(FALSE,ncol(Label.Translator)-1)))
+                fact.cols = colnames(Label.Translator)
+                Label.Translator[fact.cols] <- lapply(Label.Translator[fact.cols],
+                                                      factor)
+                Label.Translator$ROI.LabelCode = addNA(Label.Translator$ROI.LabelCode)
 
 
-              print(Label.Translator, row.names = F)
+                print(Label.Translator, row.names = F)
 
-              message(paste("\n_____________________________________\n\n",
-                            "Is the processed ROI labeling system correct?\n",
-                            "     Note: the ROI.label <NA> should be FALSE\n",
-                            "           for all subsequent variables.\n\n",
-                            "_____________________________________\n\n"))
+                message(paste("\n_____________________________________\n\n",
+                              "Is the processed ROI labeling system correct?\n",
+                              "         (see printed table above)\n",
+                              "     Note: the ROI.label <NA> should be FALSE\n",
+                              "           for all subsequent variables.\n\n",
+                              "_____________________________________\n\n"))
 
-              x = utils::menu(c("Yes", "No"))
+                x = utils::menu(c("Yes", "No"))
 
-              if(x != 1 && x != 2){
-                message("Error: must enter either 1 or 2\n\nTry again")
-                # Insert an exit function that stops the function here
-              }
+                if(x != 1 && x != 2){
+                  message("Error: must enter either 1 or 2\n\nTry again")
+                  # Insert an exit function that stops the function here
+                }
 
-              if(x == 2){
-                message(paste("Please contact authors", sep = ""))
-                # Insert an exit function that stops the function here
-              }
+                if(x == 2){
+                  message(paste("Please contact authors", sep = ""))
+                  # Insert an exit function that stops the function here
+                }
 
-              if(x == 1){
-                message("\nGood - labelling is correct - continue.")
-                return(Label.Translator)
+                if(x == 1){
+                  message("\nGood - labelling is correct - continue.")
+                  return(Label.Translator)
+                }
               }
             }
           }
@@ -181,6 +205,6 @@ CheckSet_ROILabelCodeVars = function(data, path){
       }
     }
   } else {
-    message("Not in interactive mode")
+      message("Not in interactive mode")
   }
 }

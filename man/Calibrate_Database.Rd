@@ -9,14 +9,14 @@ Calibrate_Database(datalab, known.length)
 \arguments{
 \item{datalab}{An object of class dataframe as output directly from SizeExtractR::Add_ROILabelCodeVars()}
 
-\item{known.length}{a numerical value of the length of calibration lengths from image analyses (in centimeters).}
+\item{known.length}{a numerical value of the length of calibration lengths from image analyses (in user-defined units, e.g. centimeters).}
 }
 \value{
 For each image independently, this function returns a calibrated  SizeExtractR database (dataframe object).
 
 It does these calibrations on a per image basis. The mean number of pixels is calculated among all the calibration lengths in that image (i.e., ROIs with ROI.Type of "M"). This is then compared to the 'known.length' parameter, to compute all aspects of size of each ROI.
 
-Length, Position, Area, and Volume are all given in square centimeters.
+Length, Position, Area, and Volume are all given in user-defined units, e.g. centimeters.
 }
 \description{
 Calibrate the SizeExtractR database, based on known calibration length (cm)
