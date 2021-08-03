@@ -66,8 +66,10 @@ Calibrate_Database = function(datalab, known.length){
     datacal$FeretY = (datacal$FeretY*known.length)/datacal$Cal.Length.mean
     datacal$MinFeret = (datacal$MinFeret*known.length)/datacal$Cal.Length.mean
     datacal$Volume.elliptical = (4/3) * pi * datacal$Feret * (datacal$MinFeret^2)
+    datacal$Geom.Mean.D = sqrt(datacal$Feret * datacal$MinFeret)
   }
 
+  datacal = datacal[,-which(is.na(match(colnames(datacal),c("Mean","Min","Max","X","Y","XM","YM","BX","BY","Width","Height","Angle","FeretX","FeretY","FeretAngle","Cal.Length.sd","Volume.elliptical")))==FALSE)]
 
   return(datacal)
 }
