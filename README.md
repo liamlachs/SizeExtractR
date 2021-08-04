@@ -13,8 +13,9 @@ status](https://github.com/liamlachs/SizeExtractR/workflows/R-CMD-check/badge.sv
 
 The goal of SizeExtractR is to facilitate scientific projects that have
 research questions relating to size, from pure biology to ecology on
-individual to landscape scales, by providing a user-friendly interactive
-set of R tools and ImageJ image analysis tools and protocol.
+individual to landscape scales, by providing a protocol with a
+user-friendly set of interactive tools for image analysis
+(ImageJ-macros) and database formation and quality checking (R-package).
 
 > Uses like demographics, population dynamics, and size as a proxy of
 > energy investment.
@@ -39,16 +40,16 @@ Measures of size that are captured using SizeExtractR tools include:
 
   - area
   - minimum and maximum diameter
-  - estimated spherical and elliptical volume
-  - bounding boxes
+  - estimated spherical volume
+  - perimeter length
 
 #### Other Metrics
 
-Users can also record additional variables of interest using a simple
-labeling system. For instance, the tools were developed on a coral
-bleaching demography data set, so coral species, bleaching status,
-partial mortality, and parasitism were all recorded as categorical image
-label codes.
+Users can also record additional categorical variables of interest using
+a simple labeling system. For instance, the tools were developed on a
+coral bleaching demography data set, so coral species, bleaching status,
+partial mortality, and parasitism were all recorded as categorical
+annotations relating to individual outlined objects (corals).
 
 ## Example
 
