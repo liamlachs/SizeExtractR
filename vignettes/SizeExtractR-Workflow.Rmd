@@ -66,3 +66,179 @@ knitr::kable(data.frame(ROI_Label_code = c("b","bb","pm"),
              align="c") %>%
   kableExtra::kable_styling()
 ```
+
+## C) Example images
+Examples of the study organism and table of the annotations used during image analysis are shown in  Fig. 1, and an example analysed image (from ImageJ) is shown in Fig. 2.
+
+
+![](Example_Annotations.jpg){width=100%}
+
+**Figure 1.** Overview of annotations used in this study. Using SizeExtractR to assess population size structure for hard coral from scaled seafloor photographs of the benthos ([Lachs et al., 2021](https://doi.org/10.1007/s00338-021-02081-2); [Sommer et al., 2014](https://doi.org/10.1890/13-1445.1)). A) The process of coral bleaching from a healthy state until mortality is shown for Pocillopora aliciae. The user-defined ROI Label Code for recording the different categories are shown in backets. Moderately and severely bleached colonies are recorded as ‘*b*’ and ‘*bb*’, respectively, and partial mortality is recorded as ‘*pm*’. No ROI Label Code denoted a healthy colony, and dead colonies were not analysed. B) Example ROI name labels are shown with descriptions, including the automatically produced codes for calibration lengths (*M*) and calibration points (*Cali_Pts*).
+
+![](Example_Image.jpg){width=100%}
+
+**Figure 2.** Example image output from ImageJ using the SizeExtractR ImageJ macros and workflow. Note the measurement stick is chunked into 10cm lengths which are annotated as *Cali_Pts* and *M1*-*M4*. Note the alphanumeric annotations used on the corals, and link them to Fig. 1 to understand the labelling system (*Pa*, *b*, *bb*). Note there are no corals in this image that suffer from partial mortality (*pm*)
+
+## D) Aim and accessing datasets
+The aim of this vignetter is to complete quality control of annotations build a single calibrated size dataset based on an entire set of images analysed using the SizeExtractR ImageJ macros and workflow Follow the steps below to learn how! The ImageJ-analysed dataset is saved in two versions.
+* The full folder with images and size data text files can be found in the [data repository](https://doi.org/10.25405/data.ncl.15106455) (currently accessible at the [private link](https://figshare.com/s/f243f91b8ba2ab405156), but will be transferred to the doi link upon publication) as a folder named *Data_post-ImageJ_all*. 
+* A reduced dataset containing only the directory structure and text files (no images to save space) is saved on the [SizeExtract github page](https://github.com/liamlachs/SizeExtractR/tree/master/inst/Data_post-ImageJ).
+
+
+# __________________
+# Step-by-step Guide
+## A) Setup
+* Open R
+* Install SizeExtractR  
+Do this only if the package is not yet installed.
+```
+library(devtools)
+devtools::install_github("liamlachs/SizeExtractR")
+```
+* Load SizeExtractR
+```{r setup}
+library(SizeExtractR)
+```
+
+
+## B) Save Path
+Save a variable with the path string to the root directory folder containing the image analysis files.
+```{r}
+mypath = "Coral_Example_b_processed_post-ImageJ"
+```
+
+## C)	Run `Full_SizeExtractR_Workflow()`
+Note that the `known.calibration.length` parameter is entered as a value 10 (cm), as that was length of each calibration length on the measurement stick. Therefore all computed size metrics will be in centimeters. The `include.calibrations` parameter is set to `FALSE` to avoid measurement stick lengths (e.g., *Cali_Pts* and *M1*-*M4*) being included in the final dataset.
+```
+data = SizeExtractR::Full_SizeExtractR_Workflow(
+  mypath,
+  known.calibration.length = 10,
+  include.calibrations = FALSE)
+```
+
+
+## D) Step-by-step for `Full_SizeExtractR_Workflow()`
+Everything this function does is described in the following steps, and will colminate in a full calibrated size dataset. **However**, note that if there are mistakes that are found during quality control, then you will need to make changes outside R manually, and then rerun `Full_SizeExtractR_Workflow()`.  
+**Note:** For each following step there is a screen shot of the R console after running `Full_SizeExtractR_Workflow()`. **Please read the red text** which is a guide for navigating the interactive quality control checks and variable setting.  
+
+1. **Quality control - _Directory Variables_**  
+    Ensures the folder names are all correct. If any names are incorrect, rename the folders manually outside of the R environment, and rerun `Full_SizeExtractR_Workflow()`.  
+      
+    ![](Interactive_instructions/Interactive_Step_1.jpg){width=75%}  
+    
+    
+2. **Set _Directory Variable_ names**  
+    The second step is to fill in the Variable names for each directory level. Here we have entered *Timepoint* and *Site*, which will end up as two categorical variables (columns) in the final dataset.  
+      
+    ![](Interactive_instructions/Interactive_Step_2.jpg){width=75%}
+    
+
+3. **Quality control - _ROI Type_ codes**  
+    Ensures there are no human errors (e.g., typos) in the annotated **ROI Type** codes (c.f. Figure 1). If errors are present choose `no` and then you will be given an option to locate the specific images that contain errors. Then you would need to rerun the workflow function.  
+    If there are no errors then proceed.  
+      
+    ![](Interactive_instructions/Interactive_Step_3.jpg){width=75%}
+    
+
+4. **Set _ROI Variable_ names**  
+    Now we must link the user-defined ROI Label Codes to corresponding names of categorical ROI Variables for the final dataset. This information must be added manually to the **ROI_Labels.csv** template file outside the R environment. This template file will have been automatically created. For this worked example, we will fill the data from Table 1 into the .csv file manually, save it, then continue in R.  
+    Please do this now.  
+    **Table 1.** Repeated from above
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+knitr::kable(data.frame(ROI_Label_code = c("b","bb","pm"),                    
+                        Corresponding_Variable_Name = c("Mod_Bleached","Sev_Bleached","Partial_Mortality")),
+             align="c") %>%
+  kableExtra::kable_styling()
+```
+      
+    ![](Interactive_instructions/Interactive_Step_4.jpg){width=75%}
+    
+    
+5. **Quality control - _ROI Label Codes_ 1**  
+    Ensures there are no human errors (e.g., typos) in the annotated **ROI Label Codes** (c.f. Fig. 1). Check that the data entered into the .csv file is correct.  
+      
+    ![](Interactive_instructions/Interactive_Step_5.jpg){width=75%}
+
+    
+6. **Quality control - _ROI Label Codes_ 2**  
+    Finally, check that the translation matrix from *ROI Label Codes* to *ROI Variables* is correct.  
+      
+    ![](Interactive_instructions/Interactive_Step_6.jpg){width=75%}
+    
+## **E) Congratulations**  
+Now the database is calibrated. You have a single, quality-controlled, calibrated dataset of object sizes from the example image dataset. View the dataset using `View()` or `head()`. Notice the variable names we specified have been included in the dataset.  
+The dataset can be saved using:  
+```
+write.csv(data, "Calibrated_Dataset.csv", row.names = FALSE)
+```
+**Table 2.** Full dataset with all size metrics and user-defined categorical variables.
+
+```{r, echo = FALSE}
+data = read.csv("Database.Vignette.csv")
+```
+
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+
+knitr::kable(
+  data,
+  align="c") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%", height = "400px")
+```
+
+# ________
+# Plotting
+To plot some size-frequency distributions and visualise the size data to look for any patterns, try the following example codes.
+
+## Quick plot
+```{r, warning=FALSE, fig.height=4.5, fig.width=4.5, out.height=450, out.width=450}
+
+SizeExtractR::Plot_Size_Frequency(
+  data,
+  size.metric = "Area",
+  log_size = TRUE,
+  nbins = 15)
+```
+
+## Add Spatial and temporal grouping variables
+Notice that the corals are more abundant in North Solitary Island than in Northwest Solitary island. Also see that there are fewer corals after the bleaching event across both islands.  
+
+```{r, warning=FALSE, fig.height=6, fig.width=6, out.height=600, out.width=600}
+
+SizeExtractR::Plot_Size_Frequency(
+  data,
+  size.metric = "Area",
+  log_size = TRUE,
+  nbins = 10,
+  group_by = c("Site", "Timepoint"),
+  facetRow_by = "Timepoint",
+  facetCol_by = "Site",
+  scales_gg = "fixed")
+```
+
+
+## Add Bleaching Status
+```{r,  warning=FALSE, fig.height=6, fig.width=6, out.height=650, out.width=600}
+# Compute bleaching as either moderate or severe
+data$Bleached = ifelse(data$Mod_Bleached == TRUE | data$Sev_Bleached == TRUE,
+                       "moderate/severe", "none")
+
+Plot = SizeExtractR::Plot_Size_Frequency(
+  data,
+  size.metric = "Area",
+  log_size = TRUE,
+  nbins = 10,
+  group_by = c("Site", "Timepoint", "Bleached"),
+  fill_by = "Bleached",
+  facetRow_by = "Timepoint",
+  facetCol_by = "Site",
+  scales_gg = "fixed")
+
+# See Plot is a ggplot2 class object
+Plot + ggplot2::theme(
+  legend.position="top")
+```
