@@ -24,25 +24,27 @@ Broadly there are three steps to using SizeExtractR.
 First the set of images to be analysed must be organised within a nested directory where the naming of folders is consistent. For example, for a field survey, there would be one root directory, year folders are stored here, with site folders within each year folder. The directory structure and folder names will be used later to determine the categorical variables that relate to each image (e.g., which year and site is the image from?).
 
 ## B) SizeExtractR ImageJ analysis
-The next stage of the SizeExtractR workflow is completed in ImageJ software using SizeExtractR macros to speed up an otherwise labour-intensive process of outlining Regions of Interest (ROIs), annotating/naming each ROI, measuring calibration lengths (e.g., ruler in each image), and then saving the data. The SizeExtractR worklfow exports one data file (.txt) per image that contains the uncalibrated size data (in pixels) and alphanumeric annotations (ROI label name, manually input by the user) for each ROI in that image. The following size metrics are computed:
-1. Area
-2. Circular equivalent diameter
-3. Extruded spherical volume
-4. Perimeter length
-5. Maximum caliper diameter
-6. Minimum caliper diameter
-7. Geometric mean diameter
+The next stage of the SizeExtractR workflow is completed in ImageJ software using SizeExtractR macros to speed up an otherwise labour-intensive process of outlining Regions of Interest (ROIs), annotating/naming each ROI, measuring calibration lengths (e.g., ruler in each image), and then saving the data. The SizeExtractR worklfow exports one data file (.txt) per image that contains the uncalibrated size data (in pixels) and alphanumeric annotations (ROI label name, manually input by the user) for each ROI in that image. The following size metrics are computed:  
+
+1. Area  
+2. Circular equivalent diameter  
+3. Extruded spherical volume  
+4. Perimeter length  
+5. Maximum caliper diameter  
+6. Minimum caliper diameter  
+7. Geometric mean diameter  
 
 
 ## C) SizeExtractR R-package
-Finally, the SizeExtractR R-package is used to perform quality control on ROI annotations, collate all the individual data files across an analysed image set, calibrate size metrics, and produce a single size dataset to be used for other scientific purposes. Overall, the R-package conducts the following interactive steps to build the size dataset:
-1. Quality control on the directory structure and folder names
-2. Set *Directory Variable* names to be used in the final dataset
-3. Quality control on the first section of ROI name labels (*ROI Type*)
-4. Set *ROI Variable* names for final dataset (based on *ROI Label Codes*)
-5. Quality control on the last section of ROI name labels (*ROI Label Code*)
-6. Calibrate the size metrics
-7. Plotting size distributions by group
+Finally, the SizeExtractR R-package is used to perform quality control on ROI annotations, collate all the individual data files across an analysed image set, calibrate size metrics, and produce a single size dataset to be used for other scientific purposes. Overall, the R-package conducts the following interactive steps to build the size dataset:  
+
+1. Quality control on the directory structure and folder names  
+2. Set *Directory Variable* names to be used in the final dataset  
+3. Quality control on the first section of ROI name labels (*ROI Type*)  
+4. Set *ROI Variable* names for final dataset (based on *ROI Label Codes*)  
+5. Quality control on the last section of ROI name labels (*ROI Label Code*)  
+6. Calibrate the size metrics  
+7. Plotting size distributions by group  
 
 
 # ______________
@@ -77,7 +79,7 @@ Examples of the study organism and table of the annotations used during image an
 
 **Figure 2.** Example image output from ImageJ using the SizeExtractR ImageJ macros and workflow. Note the measurement stick is chunked into 10cm lengths which are annotated as *Cali_Pts* and *M1*-*M4*. Note the alphanumeric annotations used on the corals, and link them to Fig. 1 to understand the labelling system (*Pa*, *b*, *bb*). Note there are no corals in this image that suffer from partial mortality (*pm*)
 
-## D) Aim and Accessing datasets
+## D) Aim and accessing datasets
 The aim of this vignetter is to complete quality control of annotations build a single calibrated size dataset based on an entire set of images analysed using the SizeExtractR ImageJ macros and workflow Follow the steps below to learn how! The ImageJ-analysed dataset is saved in two versions.
 * The full folder with images and size data text files can be found in the [data repository](https://doi.org/10.25405/data.ncl.15106455) (currently accessible at the [private link](https://figshare.com/s/f243f91b8ba2ab405156), but will be transferred to the doi link upon publication) as a folder named *Data_post-ImageJ_all*. 
 * A reduced dataset containing only the directory structure and text files (no images to save space) is saved on the [SizeExtract github page](https://github.com/liamlachs/SizeExtractR/tree/master/inst/Data_post-ImageJ).
@@ -166,7 +168,7 @@ knitr::kable(data.frame(ROI_Label_code = c("b","bb","pm"),
     ![](Interactive_instructions/Interactive_Step_6.jpg){width=75%}
     
 ## **E) Congratulations**  
-Now the database is calibrated. You have a single, quality-controlled, calibrated dataset of object sizes from the example image dataset. View the dataset using `Vew()` or `head()`. Notice the variable names we specified have been included in the dataset.  
+Now the database is calibrated. You have a single, quality-controlled, calibrated dataset of object sizes from the example image dataset. View the dataset using `View()` or `head()`. Notice the variable names we specified have been included in the dataset.  
 The dataset can be saved using:  
 ```
 write.csv(data, "Calibrated_Dataset.csv", row.names = FALSE)
