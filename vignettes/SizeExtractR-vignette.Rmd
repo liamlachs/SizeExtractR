@@ -242,4 +242,3 @@ Plot = SizeExtractR::Plot_Size_Frequency(
 Plot + ggplot2::theme(
   legend.position="top")
 ```
-
