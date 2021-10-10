@@ -192,7 +192,7 @@ knitr::kable(
 
 # ________
 # Plotting
-To plot some size-frequency distributions and visualise the size data to look for any patterns try the following example codes.
+To plot some size-frequency distributions and visualise the size data to look for any patterns, try the following example codes.
 
 ## Quick plot
 ```{r, warning=FALSE, fig.height=4.5, fig.width=4.5, out.height=450, out.width=450}
