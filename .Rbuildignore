@@ -3,7 +3,6 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^inst/Size-Frequencies-Coral-Example.png
-^inst/Size-Frequencies-Coral-Example.pptx
 ^inst/ImageJ_macro_code.zip
 ^inst/Timed_Image_Analyses_txt_only.zip
 ^\.github$
