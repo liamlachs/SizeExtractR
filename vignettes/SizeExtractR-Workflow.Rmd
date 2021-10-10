@@ -1,0 +1,68 @@
+---
+title: "SizeExtractR-Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SizeExtractR-Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+Liam Lachs  
+
+# ____________________
+# Overview of workflow
+SizeExtractR is a semi-automated workflow designed to improve the speed, reliability, and reproducibility of extracting size metrics from objects within images. On the spectrum of image analysis techniques that range from fully manual to fully automated, SizeExtractR lies in the middle. Note that a full User Guide is available at the [data repository](https://doi.org/10.25405/data.ncl.15106455) (it is currently only accessible at the [private link](https://figshare.com/s/f243f91b8ba2ab405156), but will be transferred to the doi link upon publication).
+Broadly there are three steps to using SizeExtractR.
+
+## A) Prep work
+First the set of images to be analysed must be organised within a nested directory where the naming of folders is consistent. For example, for a field survey, there would be one root directory, year folders are stored here, with site folders within each year folder. The directory structure and folder names will be used later to determine the categorical variables that relate to each image (e.g., which year and site is the image from?).
+
+## B) SizeExtractR ImageJ analysis
+The next stage of the SizeExtractR workflow is completed in ImageJ software using SizeExtractR macros to speed up an otherwise labour-intensive process of outlining Regions of Interest (ROIs), annotating/naming each ROI, measuring calibration lengths (e.g., ruler in each image), and then saving the data. The SizeExtractR worklfow exports one data file (.txt) per image that contains the uncalibrated size data (in pixels) and alphanumeric annotations (ROI label name, manually input by the user) for each ROI in that image. The following size metrics are computed:  
+
+1. Area  
+2. Circular equivalent diameter  
+3. Extruded spherical volume  
+4. Perimeter length  
+5. Maximum caliper diameter  
+6. Minimum caliper diameter  
+7. Geometric mean diameter  
+
+
+## C) SizeExtractR R-package
+Finally, the SizeExtractR R-package is used to perform quality control on ROI annotations, collate all the individual data files across an analysed image set, calibrate size metrics, and produce a single size dataset to be used for other scientific purposes. Overall, the R-package conducts the following interactive steps to build the size dataset:  
+
+1. Quality control on the directory structure and folder names  
+2. Set *Directory Variable* names to be used in the final dataset  
+3. Quality control on the first section of ROI name labels (*ROI Type*)  
+4. Set *ROI Variable* names for final dataset (based on *ROI Label Codes*)  
+5. Quality control on the last section of ROI name labels (*ROI Label Code*)  
+6. Calibrate the size metrics  
+7. Plotting size distributions by group  
+
+
+# ______________
+# Worked example
+To help users to learn the full SizeExtractR protocol (organising files, ImageJ, and R-package), a full worked example is provided in the official SizeExtractR User Guide. Here, we assume the user has already completed the steps in ImageJ and is ready to collate their data into a single dataset. Here is an example of an annotated image
+
+## A) Case Study background
+This worked example based on a subset of data from [Lachs et al. (2021)](https://doi.org/10.1007/s00338-021-02081-2). This database contains images of the seabed, each including a measurement scale. The images were taken during and 6-months after a coral bleaching event in 2016 in the Solitary Islands Marine Park, Southeast Australia. The research goal here was to assess how population size structure of the coral *Pocillopora aliciae* differs before and after coral bleaching event. 
+
+## B) Labelling system
+As all ROIs in this study are *P. aliciae* corals, all have an **_ROI Type_** code of *Pa*. The **_ROI Label Codes_** are shown in Table 1.
+
+**Table 1.** Table of the **ROI Label Codes** for this worked example, along with corresponding variable names which will be in the final dataset.
+```{r, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+knitr::kable(data.frame(ROI_Label_code = c("b","bb","pm"),                    
+                        Corresponding_Variable_Name = c("Mod_Bleached","Sev_Bleached","Partial_Mortality")),
+             align="c") %>%
+  kableExtra::kable_styling()
+```
