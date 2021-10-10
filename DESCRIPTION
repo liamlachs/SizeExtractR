@@ -20,4 +20,7 @@ Imports:
     fs,
     rlang
 Suggests: 
+    rmarkdown,
+    knitr,
     testthat
+VignetteBuilder: knitr
