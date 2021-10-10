@@ -79,8 +79,8 @@ Examples of the study organism and table of the annotations used during image an
 
 ## D) Aim and Accessing datasets
 The aim of this vignetter is to complete quality control of annotations build a single calibrated size dataset based on an entire set of images analysed using the SizeExtractR ImageJ macros and workflow Follow the steps below to learn how! The ImageJ-analysed dataset is saved in two versions.
-* The full folder with images and size data text files can be found in the [data repository](https://doi.org/10.25405/data.ncl.15106455) (currently accessible at the [private link](https://figshare.com/s/f243f91b8ba2ab405156), but will be transferred to the doi link upon publication) as a folder named *Coral_Example_b_processed_post-ImageJ*. 
-* A reduced dataset containing only the directory structure and text files (no images to save space) is saved on the [SizeExtract github page](https://github.com/liamlachs/SizeExtractR/tree/master/inst).
+* The full folder with images and size data text files can be found in the [data repository](https://doi.org/10.25405/data.ncl.15106455) (currently accessible at the [private link](https://figshare.com/s/f243f91b8ba2ab405156), but will be transferred to the doi link upon publication) as a folder named *Data_post-ImageJ_all*. 
+* A reduced dataset containing only the directory structure and text files (no images to save space) is saved on the [SizeExtract github page](https://github.com/liamlachs/SizeExtractR/tree/master/inst/Data_post-ImageJ).
 
 
 # __________________
