@@ -34,28 +34,42 @@ CheckSet_ROILabelCodeVars = function(data, path){
       csvDir = paste(path,"/","ROI_Labels.csv",sep="")
       csvTemplate = data.frame(ROI_Label_code = rep("<fill label text here>",N.Lab.txt.chars),
                                Corresponding_Variable_Name = rep("<fill variable name here>",N.Lab.txt.chars))
+      x=1
 
       if(file.exists(csvDir) == FALSE){
         utils::write.csv(csvTemplate, csvDir, row.names = FALSE)
 
         message(paste("_________________________________________________________________\n\n",
                       ".csv file 'ROI_Labels.csv' was just created in the path directory\n",
-                      "Follow the next 3 steps (outside of R):\n\n",
+                      "Follow the next 4 steps (outside of R):\n\n",
                       "   1) Open the .csv file\n",
                       "   2) Fill in the ROI label codes relavent to your image analysis\n",
                       "   3) Fill in the corresponding Variable names (no spaces)\n",
                       "   4) Save and close the .csv file\n",
-                      "   5) Rerun the CheckSet_ROILabelCodeVars function.\n\n",
+                      "   5) Then once back in R choose 'Continue'\n\n",
                       "   NOTE: do not change the .csv filename or move to a different directory.\n",
                       "         see label characters from text file imports (may contain errors).\n\n",
-                      "   NOTE: Do not include ROI label codes in the csv file if they have not\n",
+                      "   NOTE: Do not include ROI label codes in the csv file if they have NOT\n",
                       "         been used any of the analysed images in your specified path.\n\n",
-                      "   NOTE: Only include ROI Label Codes (alphabetical after the number),\n",
-                      "         and not ROI Type codes (alphabetical before the number).\n",
+                      "   NOTE: Only include ROI Label Codes (alphabetical after the number in,\n",
+                      "         the overall annotation - e.g. the 'bb' in 'Pa1bb'), and\n",
+                      "         not the ROI Type codes (before the number - e.g., 'Pa').\n",
                       "_________________________________________________________________\n\n"))
         print(data.frame(Label.Characters = Lab.txt.chars),row.names = F)
-      } else {
 
+        message(paste("\n____________________________\n\n",
+                      "Is the new file 'ROI_Labels.csv'\n",
+                      "filled in correctly?\n\n",
+                      "____________________________\n\n"))
+
+        x = utils::menu(c("Yes - Continue", "No - Abort"))
+      }
+
+      if(x == 2){
+        message(paste("\n_____________________________________________________________\n\n",
+                      "Please revise the ROI Label template csv file and rerun.\n",
+                      "\n_____________________________________________________________\n\n"))
+      } else {
         # Check the ROI label codes are correct
         Label.csv.data = utils::read.csv(csvDir)
 
@@ -130,7 +144,8 @@ CheckSet_ROILabelCodeVars = function(data, path){
               #check that the label.translater does not contain values that are not in the analysed images
               xx=c()
               for(i in 1:nrow(Label.csv.data)){
-                if(length(which(is.na(match(Label.csv.data$ROI_Label_code[i],Lab.txt.chars)) == FALSE)) == 0){
+                if(length(which(is.na(match(unlist(strsplit(as.character(Label.csv.data$ROI_Label_code[i]), split = "")),Lab.txt.chars)) == FALSE)) == 0){
+                  # if(length(which(is.na(match(Label.csv.data$ROI_Label_code[i],Lab.txt.chars)) == FALSE)) == 0){
                   xx=c(xx,i)
                 }
               }
@@ -175,12 +190,12 @@ CheckSet_ROILabelCodeVars = function(data, path){
 
                 print(Label.Translator, row.names = F)
 
-                message(paste("\n_____________________________________\n\n",
+                message(paste("\n_______________________________________________\n\n",
                               "Is the processed ROI labeling system correct?\n",
                               "         (see printed table above)\n",
                               "     Note: the ROI.label <NA> should be FALSE\n",
                               "           for all subsequent variables.\n\n",
-                              "_____________________________________\n\n"))
+                              "_______________________________________________\n\n"))
 
                 x = utils::menu(c("Yes", "No"))
 
@@ -205,6 +220,6 @@ CheckSet_ROILabelCodeVars = function(data, path){
       }
     }
   } else {
-      message("Not in interactive mode")
+    message("Not in interactive mode")
   }
 }
