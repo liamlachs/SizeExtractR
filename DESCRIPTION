@@ -8,7 +8,7 @@ Description: The ImageJ tools and protocol serve to optimise the slow task of ma
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://github.com/liamlachs/SizeExtractR
 BugReports: https://github.com/liamlachs/SizeExtractR/issues
 Date: 2021-05-17
@@ -22,5 +22,6 @@ Imports:
 Suggests: 
     rmarkdown,
     knitr,
+    kableExtra,
     testthat
 VignetteBuilder: knitr
