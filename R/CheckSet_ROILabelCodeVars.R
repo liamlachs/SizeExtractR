@@ -152,10 +152,12 @@ CheckSet_ROILabelCodeVars = function(data, path){
               if(length(xx)>0){
                 message(paste("\n________________________________________________________________\n\n",
                               "Error: ROI Label Code included in csv file was not present in the\n",
-                              "Analysed images within the user-defined path directory.\n\n",
-                              "   1) See below for the offending ROI Label Code.\n",
-                              "   2) Remove he associated line from the 'ROI Label.csv' file.\n",
-                              "   3) Rerun this function.",
+                              "analysed images within the user-defined path directory.\n\n",
+                              "   1) Check the path directory string used in R is correct.\n",
+                              "   2) Outside of R, open the csv file (in that directory).\n",
+                              "   3) See below for the offending ROI Label Code.\n",
+                              "   4) Remove the associated line from the 'ROI Label.csv' file.\n",
+                              "   5) Rerun this function.",
                               "\n________________________________________________________________\n\n"))
                 print(Label.csv.data[xx,])
               } else {
